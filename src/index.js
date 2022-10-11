@@ -29,9 +29,10 @@ rest.put(Routes.applicationCommands(clientId), { body: commands })
 	.catch(console.error);
 
 client.once('ready', async () => {
-	await mongoose.connect(mongo, () => {
-		console.log('Ready!');
-		client.user.setActivity('/dap', { type: ActivityType.Listening })
+	client.user.setActivity('/dap', { type: ActivityType.Listening })
+	console.log('Connected to Discord API!');
+	await mongoose.connect(mongo, (error) => {
+		if (error) throw Error(error); else console.log("Connected to MongoDB")
 		//client.user.setAvatar("https://media.discordapp.net/attachments/1028766392989794444/1029202069812424764/dapper.png?width=406&height=406");
 	})
 	
