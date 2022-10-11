@@ -1,0 +1,17 @@
+{
+  "name": "dapper",
+  "version": "1.0.0",
+  "description": "a dapper bot for dapper dapping",
+  "main": "src/index.js",
+  "author": "Will Faircloth",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "discord.js": "^14.5.0",
+    "dotenv": "^16.0.3",
+    "mongoose": "^6.6.5"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  }
+}
