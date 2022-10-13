@@ -14,7 +14,8 @@ module.exports = {
             const color = error ? "Red" : "Green"; 
             const replyEmbed = new EmbedBuilder()
             .setColor(color)
-            .setDescription(text);
+            .setDescription(text)
+            .setTimestamp();
 
             if (footer) replyEmbed.setFooter({text: footer});
             interaction.reply({ embeds: [replyEmbed], ephemeral: error});
@@ -28,8 +29,8 @@ module.exports = {
         if (reciever.id == giver.id) return embedReply("You tried to dap up yourself, but you looked too lonely.", true)
         if (reciever.bot) return embedReply("You tried to dap up a robot, but it had no hands.", true)
         
-        const giverDap = Math.floor(Math.random() * (20 - 10) + 10);
-        const recieverDap = Math.ceil(giverDap * 0.5);
+        const giverDap = Math.floor(Math.random() * (6 - 3) + 3);
+        const recieverDap = Math.ceil(giverDap / 2);
 
         const { DapSchema } = client.Schema;
         await new DapSchema({
