@@ -11,22 +11,20 @@ module.exports = {
                 .setRequired(false)
         ),
     async execute(client, interaction) {
-        function embedReply(text, error = false, footer) {
-            const color = error ? "Red" : "Green"; 
+        function embedError(text) {
             const replyEmbed = new EmbedBuilder()
-            .setColor(color)
+            .setColor("Red")
             .setDescription(text)
             .setTimestamp();
 
-            if (footer) replyEmbed.setFooter({text: footer});
-            interaction.reply({ embeds: [replyEmbed], ephemeral: error});
+            interaction.reply({ embeds: [replyEmbed], ephemeral: true});
         }
 
-        let member = interaction.options.getUser('member') || interaction.member;
+        let member = interaction.options.getMember('member') || interaction.member;
         let guildId = interaction.guild.id;
         let isGuildMember = interaction.guild.members.cache.has(member.id);
-        if (!isGuildMember) return embedReply("You tried to view the stats of someone from another server and got lost.", true);
-        if (member.bot) return embedReply("You tried to view the stats of a bot, but it didn't respond", true)
+        if (!isGuildMember) return embedError("You tried to view the stats of someone from another server and got lost.");
+        if (member.bot) return embedError("You tried to view the stats of a bot, but it didn't respond");
 
         const { DapSchema } = client.Schema;
         let resultsWithMember = await DapSchema.find( { $or: [{ giverId: member.id }, { recieverId: member.id }] });
@@ -44,6 +42,11 @@ module.exports = {
         }
         totaldaps = dapsrecieved + dapsgiven;
         localtotaldaps = localdapsrecieved + localdapsgiven;
-        embedReply([dapscore, localdapscore, dapsrecieved, dapsgiven, totaldaps, localdapsrecieved, localdapsgiven, localtotaldaps].join(" "));
+        const replyEmbed = new EmbedBuilder()
+            .setColor("Green")
+            .setTitle("Statistics for " + member.user.username)
+            .addFields({ name: 'Global Stats', value: `**${dapscore}** DapScore.\n**${dapsgiven}** daps given.\n**${dapsrecieved}** daps recieved.`}, { name: 'Server Stats', value: `**${localdapscore}** DapScore.\n**${localdapsgiven}** daps given.\n**${localdapsrecieved}** daps recieved.`})
+            .setTimestamp();
+        interaction.reply({ embeds: [replyEmbed]})
     }
 }
