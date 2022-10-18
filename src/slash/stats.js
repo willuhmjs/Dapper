@@ -1,5 +1,5 @@
 // stats with a certain person, how many daps youve recieved or given
-const { SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('stats')
