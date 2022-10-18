@@ -32,22 +32,37 @@ module.exports = {
         const giverDap = Math.floor(Math.random() * (6 - 3) + 3);
         const recieverDap = Math.ceil(giverDap / 2);
 
-        const { DapSchema } = client.Schema;
-        await new DapSchema({
-            giverId: giver.id,
-            recieverId: reciever.id,
-            giverDap, recieverDap, guildId
-        }).save(); 
+        const { GuildDapSchema } = client.Schema;
+        // update GIVER
 
-        let resultsWithGiver = await DapSchema.find( { $or: [{ giverId: giver.id }, { recieverId: giver.id }] });
-        let dapscore = 0;
-        let localdapscore = 0;
-        for (let i = 0; i < resultsWithGiver.length; i++) {
-            let increase = resultsWithGiver[i].giverDap;
-            dapscore += increase
-            if (resultsWithGiver[i].guildId == guildId) localdapscore += increase
+        let giverGuildDap = await GuildDapSchema.findOne({userId: giver.id, guildId });
+        if (!giverGuildDap) {
+            giverGuildDap = await new GuildDapSchema({
+                userId: giver.id,
+                userDap: giverDap,
+                dapsGiven: 1,
+                guildId
+            }).save();
+        } else {
+            giverGuildDap.userDap += giverDap;
+            await giverGuildDap.save()
         }
 
-        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `Server Dapscore: ${localdapscore} | Dapscore: ${dapscore}`);
+        // update RECIEVER
+
+        let recieverGuildDap = await GuildDapSchema.findOne({userId: reciever.id, guildId });
+        if (!recieverGuildDap) {
+            recieverGuildDap = await new GuildDapSchema({
+                userId: reciever.id,
+                userDap: recieverDap,
+                dapsRecieved: 1,
+                guildId
+            }).save();
+        } else {
+            recieverGuildDap.userDap += recieverDap;
+            await recieverGuildDap.save()
+        }
+ 
+        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `Server Dapscore: ${giverGuildDap.userDap || giverDap}`);
     }
 }

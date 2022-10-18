@@ -1,11 +1,12 @@
 const { Schema, model } = require("mongoose");
 
-const DapSchema = new Schema({
-    giverId: { type: String, required: true },
-    recieverId: { type: String, required: true },
-    giverDap: { type: Number, required: true },
-    recieverDap: { type: Number, required: true },
+const GuildDapSchema = new Schema({
+    userId: { type: String, required: true },
+    userDap: { type: Number, required: true, default: 0 },
+    dapsGiven: { type: Number, required: true, default: 0},
+    dapsRecieved: { type: Number, required: true, default: 0},
     guildId: { type: String, required: true }
 }, { timestamps: true });
 
-exports.DapSchema = model("DapSchema", DapSchema);
+
+exports.GuildDapSchema = model("GuildDapSchema", GuildDapSchema);
