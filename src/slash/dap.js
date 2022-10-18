@@ -45,6 +45,7 @@ module.exports = {
             }).save();
         } else {
             giverGuildDap.userDap += giverDap;
+            giverGuildDap.dapsGiven++;
             await giverGuildDap.save()
         }
 
@@ -60,6 +61,7 @@ module.exports = {
             }).save();
         } else {
             recieverGuildDap.userDap += recieverDap;
+            recieverGuildDap.dapsRecieved++;
             await recieverGuildDap.save()
         }
  
