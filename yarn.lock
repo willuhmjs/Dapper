@@ -409,6 +409,11 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+pagination.djs@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/pagination.djs/-/pagination.djs-4.0.5.tgz#5f6df8fb20874b12fe31461436652d60171f6d97"
+  integrity sha512-G4R1Pk/GQybH2z9/kns+hcDZOoXhprSICIBHKBEEjUqFC03MDroS7oRxhnw12ZkID+R1jIDij6nlkBYo5oLCrw==
+
 peek-readable@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/peek-readable/-/peek-readable-5.0.0.tgz"

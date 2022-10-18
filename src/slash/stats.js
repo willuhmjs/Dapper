@@ -27,7 +27,7 @@ module.exports = {
 
         const { GuildDapSchema } = client.Schema;
         let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id})
-
+        
         const replyEmbed = new EmbedBuilder()
             .setColor("Green")
             .setTitle("Statistics for " + member.user.username)

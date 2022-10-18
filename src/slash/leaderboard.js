@@ -2,16 +2,26 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('leaderboard')
-        .setDescription('Displays a leaderboard for your server.'),
+        .setDescription('Displays the leaderboard for your server.'),
     async execute(client, interaction) {
         const { GuildDapSchema } = client.Schema;
+        const { Pagination } = require('pagination.djs');
+        const pagination = new Pagination(interaction, { limit: 10 }); 
+       
+        let users = []; // pages of data, 10 lines each
+        
         let guildUsers = await GuildDapSchema.find({ guildId: interaction.guild.id }).sort({ userDap: -1 });
-        // respond with the data
-        /*const replyEmbed = new EmbedBuilder()
+        for (let i = 0; i < guildUsers.length; i++) {
+            const guildUser = guildUsers[i];
+            users.push(`${i+1}. <@${guildUser.userId}>: ${guildUser.userDap}`);
+        }
+        pagination
+        .setDescriptions(users)
         .setColor("Green")
-        .setTitle("About")
+        .setTitle("Leaderboard")
         .setTimestamp();
-        interaction.reply({ embeds: [replyEmbed], ephemeral: true});*/
+        pagination.render();
+        // respond with the data
     
     }
 }
