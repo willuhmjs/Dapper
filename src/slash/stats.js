@@ -30,7 +30,7 @@ module.exports = {
         
         const replyEmbed = new EmbedBuilder()
             .setColor("Green")
-            .setTitle("Statistics for *" + member.user.username + "*")
+            .setTitle("Statistics for " + member.user.username)
             .setDescription(`**${UserGuildData.userDap || 0}** DapScore.\n**${UserGuildData.dapsGiven || 0}** daps given.\n**${UserGuildData.dapsRecieved || 0}** daps recieved.`)
             .setTimestamp();
         interaction.reply({ embeds: [replyEmbed]})
