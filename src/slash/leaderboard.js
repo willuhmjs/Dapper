@@ -10,10 +10,12 @@ module.exports = {
        
         let users = []; // pages of data, 10 lines each
         
-        let guildUsers = await GuildDapSchema.find({ guildId: interaction.guild.id }).sort({ userDap: -1 });
+        let guildUsers = await GuildDapSchema.find({ guildId: interaction.guild.id }).sort({ userDap: -1 }).limit(100);
         for (let i = 0; i < guildUsers.length; i++) {
             const guildUser = guildUsers[i];
-            users.push(`${i+1}. <@${guildUser.userId}>: ${guildUser.userDap}`);
+            let guildMember = await interaction.guild.members.fetch(guildUser.userId)
+
+            users.push(`${i+1}. **${guildMember.user.username}:** ${guildUser.userDap} DapScore`);
         }
         pagination
         .setDescriptions(users)
