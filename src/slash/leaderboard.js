@@ -6,7 +6,7 @@ module.exports = {
     async execute(client, interaction) {
         const { GuildDapSchema } = client.Schema;
         const { Pagination } = require('pagination.djs');
-        const pagination = new Pagination(interaction, { limit: 10, firstEmoji: '⏮' }); 
+        const pagination = new Pagination(interaction, { limit: 10, firstEmoji: '⏮', idle: 60000 }); 
        
         let users = []; // pages of data, 10 lines each
         
