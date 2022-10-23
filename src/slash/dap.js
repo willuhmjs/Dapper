@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { DapChain } = require('../models');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('dap')
@@ -32,7 +33,14 @@ module.exports = {
         const giverDap = Math.floor(Math.random() * (6 - 3) + 3);
         const recieverDap = Math.ceil(giverDap / 2);
 
-        const { GuildDapSchema } = client.Schema;
+        const { GuildDapSchema, Dapchain } = client.Schema;
+        // push transaction to dapchain
+        await new DapChain({
+            giverId: giver.id,
+            recieverId: reciever.id,
+            guildId: interaction.guild.id
+        }).save();
+
         // update GIVER
 
         let giverGuildDap = await GuildDapSchema.findOne({userId: giver.id, guildId });
