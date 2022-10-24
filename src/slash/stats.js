@@ -26,7 +26,7 @@ module.exports = {
         if (member.bot) return embedError("You tried to view the stats of a bot, but it didn't respond");
 
         const { GuildDapSchema } = client.Schema;
-        let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id})
+        let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id}) || {};
         
         const replyEmbed = new EmbedBuilder()
             .setColor("Green")
