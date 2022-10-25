@@ -30,10 +30,15 @@ module.exports = {
         if (reciever.id == giver.id) return embedReply("You tried to dap up yourself, but you looked too lonely.", true)
         if (reciever.bot) return embedReply("You tried to dap up a robot, but it had no hands.", true)
         
-        const giverDap = Math.floor(Math.random() * (6 - 3) + 3);
+        const giverDap = Math.floor(Math.random() * (60 - 30) + 30);
         const recieverDap = Math.ceil(giverDap / 2);
 
-        const { GuildDapSchema, Dapchain } = client.Schema;
+        const { getStreaks } = require("../dapgap");
+        const { lastDapHeute } = await getStreaks(giver, reciever);
+        if (lastDapHeute) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
+        
+
+        const { GuildDapSchema, DapChain } = client.Schema;
         // push transaction to dapchain
         await new DapChain({
             giverId: giver.id,

@@ -25,9 +25,12 @@ module.exports = {
         if (!isGuildMember) return embedError("You tried to view the stats of someone from another server and got lost.");
         if (member.bot) return embedError("You tried to view the stats of a bot, but it didn't respond");
 
+        const { getStreaks } = require("../dapgap");
+        console.log(await getStreaks(interaction.member, member));
+
         const { GuildDapSchema } = client.Schema;
         let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id}) || {};
-        
+
         const replyEmbed = new EmbedBuilder()
             .setColor("Green")
             .setTitle("Statistics for *" + member.user.username + "*")

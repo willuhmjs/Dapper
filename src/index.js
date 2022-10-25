@@ -4,12 +4,12 @@ const { Client, Collection, GatewayIntentBits, Routes, Activity, ActivityType } 
 const { REST } = require('@discordjs/rest');
 const mongoose = require("mongoose")
 const { clientId, token, mongo } = require('./config');
-const { GuildDapSchema, Dapchain } = require("./models");
+const { GuildDapSchema, DapChain } = require("./models");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const commands = [];
-client.Schema = { GuildDapSchema, Dapchain };
+client.Schema = { GuildDapSchema, DapChain };
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'slash');
