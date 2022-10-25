@@ -26,6 +26,7 @@ module.exports = {
         if (member.bot) return embedError("You tried to view the stats of a bot, but it didn't respond");
 
         const { getStreaks } = require("../dapgap");
+        let { streak } = await getStreaks(interaction.member, member)
 
         const { GuildDapSchema } = client.Schema;
         let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id}) || {};
@@ -35,6 +36,8 @@ module.exports = {
             .setTitle("Statistics for *" + member.user.username + "*")
             .setDescription(`**${UserGuildData.userDap || 0}** DapScore.\n**${UserGuildData.dapsGiven || 0}** daps given.\n**${UserGuildData.dapsRecieved || 0}** daps recieved.`)
             .setTimestamp();
+
+        if (streak) replyEmbed.setFooter({ text: `🔥 You have a ${streak} day streak!`})
         interaction.reply({ embeds: [replyEmbed]})
     }
 }
