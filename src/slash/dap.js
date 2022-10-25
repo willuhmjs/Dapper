@@ -78,6 +78,6 @@ module.exports = {
             await recieverGuildDap.save()
         }
  
-        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `Server Dapscore: ${giverGuildDap.userDap || giverDap}`);
+        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `+${giverDap} DapScore`);
     }
 }
