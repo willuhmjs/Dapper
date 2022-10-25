@@ -30,8 +30,7 @@ module.exports = {
         if (reciever.id == giver.id) return embedReply("You tried to dap up yourself, but you looked too lonely.", true)
         if (reciever.bot) return embedReply("You tried to dap up a robot, but it had no hands.", true)
         
-        const giverDap = Math.floor(Math.random() * (60 - 30) + 30);
-        const recieverDap = Math.ceil(giverDap / 2);
+        const addDap = Math.floor(Math.random() * (60 - 30) + 30);
 
         const { getStreaks } = require("../dapgap");
         const { lastDapHeute } = await getStreaks(giver, reciever);
@@ -52,12 +51,12 @@ module.exports = {
         if (!giverGuildDap) {
             giverGuildDap = await new GuildDapSchema({
                 userId: giver.id,
-                userDap: giverDap,
+                userDap: addDap,
                 dapsGiven: 1,
                 guildId
             }).save();
         } else {
-            giverGuildDap.userDap += giverDap;
+            giverGuildDap.userDap += addDap;
             giverGuildDap.dapsGiven++;
             await giverGuildDap.save()
         }
@@ -68,16 +67,16 @@ module.exports = {
         if (!recieverGuildDap) {
             recieverGuildDap = await new GuildDapSchema({
                 userId: reciever.id,
-                userDap: recieverDap,
+                userDap: addDap,
                 dapsRecieved: 1,
                 guildId
             }).save();
         } else {
-            recieverGuildDap.userDap += recieverDap;
+            recieverGuildDap.userDap += addDap;
             recieverGuildDap.dapsRecieved++;
             await recieverGuildDap.save()
         }
  
-        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `+${giverDap} DapScore`);
+        return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`, false, `+${addDap} DapScore`);
     }
 }
