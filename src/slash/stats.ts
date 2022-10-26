@@ -1,5 +1,5 @@
 // stats with a certain person, how many daps youve recieved or given
-import { SlashCommandBuilder, EmbedBuilder, Client } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Client, GuildMember } from "discord.js";
 import { getStreaks } from "../dapgap";
 export default {
 	data: new SlashCommandBuilder()
@@ -21,13 +21,13 @@ export default {
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
 
-		let member = interaction.options.getMember("member") || interaction.member;
+		let member: GuildMember = interaction.options.getMember("member") || interaction.member;
 		let isGuildMember = interaction.guild.members.cache.has(member.id);
 		if (!isGuildMember)
 			return embedError(
 				"You tried to view the stats of someone from another server and got lost."
 			);
-		if (member.bot)
+		if (member.user.bot)
 			return embedError(
 				"You tried to view the stats of a bot, but it didn't respond"
 			);
@@ -43,7 +43,7 @@ export default {
 
 		const replyEmbed = new EmbedBuilder()
 			.setColor("Green")
-			.setTitle("Statistics for *" + member.user.username + "*")
+			.setTitle("Statistics for *" + member.nickname || member.user.username + "*")
 			.setDescription(
 				`**${UserGuildData.userDap || 0}** DapScore.\n**${
 					UserGuildData.dapsGiven || 0

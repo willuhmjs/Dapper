@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, Client } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Client, GuildMember } from "discord.js";
 export default {
 	data: new SlashCommandBuilder()
 		.setName("leaderboard")
@@ -21,10 +21,10 @@ export default {
 			.limit(100);
 		for (let i = 0; i < guildUsers.length; i++) {
 			const guildUser = guildUsers[i];
-			let guildMember = await interaction.guild.members.fetch(guildUser.userId);
+			let guildMember: GuildMember = await interaction.guild.members.fetch(guildUser.userId);
 
 			users.push(
-				`${i + 1}. **${guildMember.user.username}:** ${
+				`${i + 1}. **${guildMember.nickname || guildMember.user.username}:** ${
 					guildUser.userDap
 				} DapScore`
 			);

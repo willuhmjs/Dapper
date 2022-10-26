@@ -1,5 +1,5 @@
 import { DapChain } from "./models";
-import type { User } from "discord.js";
+import type { GuildMember, User } from "discord.js";
 import type { Collection } from "mongoose";
 
 interface streakOutput {
@@ -8,8 +8,8 @@ interface streakOutput {
 }
 
 export const getStreaks = async (
-	user1: User,
-	user2: User
+	user1: User | GuildMember,
+	user2: User | GuildMember
 ): Promise<streakOutput | never> => {
 	type DapDocument = Collection & { createdAt: Date; updatedat: Date };
 	const DapData: DapDocument[] = await DapChain.find(
