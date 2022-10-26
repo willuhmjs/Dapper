@@ -41,7 +41,7 @@ rest
 	.catch(console.error);
 
 client.once("ready", async () => {
-	if (!mongo) throw Error("No mongo!"); 
+	if (!mongo) throw Error("No mongo!");
 	if (!client.user) throw Error("Unexpected: client.user is null");
 	client.user.setActivity("/dap", { type: ActivityType.Listening });
 	console.log("Connected to Discord API!");
