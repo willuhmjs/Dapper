@@ -1,9 +1,9 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-module.exports = {
+import { SlashCommandBuilder, EmbedBuilder, Client } from 'discord.js';
+export default {
     data: new SlashCommandBuilder()
         .setName('about')
         .setDescription('Sends an ephemeral message with info about the bot.'),
-    async execute(client, interaction) {
+    async execute(client: Client, interaction: any) {
         const replyEmbed = new EmbedBuilder()
         .setColor("Green")
         .setTitle("About")

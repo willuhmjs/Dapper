@@ -1,10 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-module.exports = {
+import { SlashCommandBuilder, EmbedBuilder, Client } from 'discord.js';
+export default {
     data: new SlashCommandBuilder()
         .setName('leaderboard')
         .setDescription('Displays the leaderboard for your server.'),
-    async execute(client, interaction) {
-        const { GuildDapSchema } = client.Schema;
+    async execute(client: Client, interaction: any) {
+        const { GuildDapSchema } = (client as any).Schema;
         const { Pagination } = require('pagination.djs');
         const pagination = new Pagination(interaction, { limit: 10, firstEmoji: '⏮', idle: 60000 }); 
        

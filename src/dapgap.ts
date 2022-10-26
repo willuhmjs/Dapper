@@ -1,7 +1,9 @@
-const { DapChain } = require("./models");
+import { DapChain } from "./models";
+import type { User } from "discord.js"
 
-exports.getStreaks = async (user1, user2) => {
-    const DapData = await DapChain.find({ $or: [{ recieverId: user1.id, giverId: user2.id }, { recieverId: user2.id, giverId: user1.id }] }, null, {sort: '-date'})
+exports.getStreaks = async (user1: User, user2: User) => {
+    // TODO type this
+    const DapData: any = await DapChain.find({ $or: [{ recieverId: user1.id, giverId: user2.id }, { recieverId: user2.id, giverId: user1.id }] }, null, {sort: '-date'})
     let lastDapHeute = (Date.now() - DapData[DapData.length-1]?.createdAt.getTime()) || Infinity < 86400000;
    if (DapData.length === 0) {
         return { streak: 0, lastDapHeute};

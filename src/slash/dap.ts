@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { DapChain } = require('../models');
-module.exports = {
+import { SlashCommandBuilder, EmbedBuilder, Client } from 'discord.js';
+import { DapChain } from '../models';
+export default {
     data: new SlashCommandBuilder()
         .setName('dap')
         .setDescription('Dap up another member!')
@@ -10,8 +10,8 @@ module.exports = {
                 .setDescription('The server member you want to dap up.')
                 .setRequired(true)
         ),
-    async execute(client, interaction) {
-        function embedReply(text, error = false, footer) {
+    async execute(client: Client, interaction: any) {
+        function embedReply(text: string, error = false, footer?: string) {
             const color = error ? "Red" : "Green"; 
             const replyEmbed = new EmbedBuilder()
             .setColor(color)
@@ -37,7 +37,7 @@ module.exports = {
         if (lastDapHeute) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
         
 
-        const { GuildDapSchema, DapChain } = client.Schema;
+        const { GuildDapSchema, DapChain } = (client as any).Schema;
         // push transaction to dapchain
         await new DapChain({
             giverId: giver.id,

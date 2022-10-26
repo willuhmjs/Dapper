@@ -1,7 +1,6 @@
-require('dotenv').config()
+import { config } from "dotenv"
+config()
 
-module.exports = {
-    token: process.env.TOKEN,
-    clientId: process.env.CLIENTID,
-    mongo: process.env.MONGO
-}
+export const token = process.env.TOKEN
+export const clientId = process.env.CLIENTID
+export const mongo = process.env.MONGO

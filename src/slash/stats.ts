@@ -1,6 +1,6 @@
 // stats with a certain person, how many daps youve recieved or given
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-module.exports = {
+import { SlashCommandBuilder, EmbedBuilder, Client } from 'discord.js';
+export default {
     data: new SlashCommandBuilder()
         .setName('stats')
         .setDescription('View the dap stats of another member.')
@@ -10,8 +10,8 @@ module.exports = {
                 .setDescription('The server member who you want to view stats from.')
                 .setRequired(false)
         ),
-    async execute(client, interaction) {
-        function embedError(text) {
+    async execute(client: Client, interaction: any) {
+        function embedError(text: string) {
             const replyEmbed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(text)
@@ -28,7 +28,7 @@ module.exports = {
         const { getStreaks } = require("../dapgap");
         let { streak } = await getStreaks(interaction.member, member)
 
-        const { GuildDapSchema } = client.Schema;
+        const { GuildDapSchema } = (client as any).Schema;
         let UserGuildData = await GuildDapSchema.findOne({ userId: member.id, guildId: interaction.guild.id}) || {};
 
         const replyEmbed = new EmbedBuilder()
