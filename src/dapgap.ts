@@ -23,8 +23,8 @@ export const getStreaks = async (
 		{ sort: "-date" }
 	);
 	let lastDapHeute: boolean =
-		Date.now() -
-			(DapData[DapData.length - 1]?.createdAt.getTime() || Infinity) <
+		(Date.now() -
+			DapData[DapData.length - 1]?.createdAt.getTime() || Infinity) <
 		86400000;
 	if (DapData.length === 0) {
 		return { streak: 0, lastDapHeute };
