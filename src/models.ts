@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const GuildDapSchema = new Schema({
+const GuildDapSchemaModel = new Schema({
     userId: { type: String, required: true },
     userDap: { type: Number, required: true, default: 0 },
     dapsGiven: { type: Number, required: true, default: 0},
@@ -17,5 +17,5 @@ const Dapchain = new Schema({
     guildId: { type: String, required: true }
 }, { timestamps: true });
 
-exports.GuildDapSchema = model("GuildDap", GuildDapSchema);
+exports.GuildDapSchema = model("GuildDap", GuildDapSchemaModel);
 exports.DapChain = model("Dapchain", Dapchain);
