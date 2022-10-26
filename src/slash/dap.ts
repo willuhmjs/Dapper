@@ -1,5 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, Client } from "discord.js";
-import { DapChain } from "../models";
+import { SlashCommandBuilder, EmbedBuilder, Client, User } from "discord.js";
 export default {
 	data: new SlashCommandBuilder()
 		.setName("dap")
@@ -22,8 +21,8 @@ export default {
 			interaction.reply({ embeds: [replyEmbed], ephemeral: error });
 		}
 
-		let reciever = interaction.options.getUser("member");
-		let giver = interaction.user;
+		let reciever: User = interaction.options.getUser("member");
+		let giver: User = interaction.user;
 		let guildId = interaction.guild.id;
 		let isGuildMember = interaction.guild.members.cache.has(reciever.id);
 		if (!isGuildMember)
