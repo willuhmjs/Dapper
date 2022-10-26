@@ -40,10 +40,9 @@ export default {
 				userId: member.id,
 				guildId: interaction.guild.id,
 			})) || {};
-
 		const replyEmbed = new EmbedBuilder()
 			.setColor("Green")
-			.setTitle("Statistics for *" + member.nickname || member.user.username + "*")
+			.setTitle(`Statistics for  \`${member.nickname || member.user.username}\``)
 			.setDescription(
 				`**${UserGuildData.userDap || 0}** DapScore.\n**${
 					UserGuildData.dapsGiven || 0
