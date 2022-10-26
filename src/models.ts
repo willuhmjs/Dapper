@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const GuildDapSchemaModel = new Schema({
+const GuildDapSchemaModel: Schema = new Schema({
 	userId: { type: String, required: true },
 	userDap: { type: Number, required: true, default: 0 },
 	dapsGiven: { type: Number, required: true, default: 0 },
