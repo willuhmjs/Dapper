@@ -39,7 +39,8 @@ rest
 	.catch(console.error);
 
 client.once("ready", async () => {
-	client.user!.setActivity("/dap", { type: ActivityType.Listening });
+	if (!client.user) throw Error("Unexpected: client.user is null")
+	client.user.setActivity("/dap", { type: ActivityType.Listening });
 	console.log("Connected to Discord API!");
 	mongoose.connect(mongo!, (error) => {
 		if (error) throw error;
