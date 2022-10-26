@@ -1,9 +1,10 @@
 import { DapChain } from "./models";
 import type { User } from "discord.js";
+import type { Collection } from "mongoose";
 
 exports.getStreaks = async (user1: User, user2: User) => {
-	// TODO type this
-	const DapData: any = await DapChain.find(
+	type DapDocument = Collection & { createdAt: Date, updatedat: Date };
+	const DapData: DapDocument[] = await DapChain.find(
 		{
 			$or: [
 				{ recieverId: user1.id, giverId: user2.id },

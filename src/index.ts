@@ -5,8 +5,7 @@ import {
 	Collection,
 	GatewayIntentBits,
 	Routes,
-	Activity,
-	ActivityType,
+	ActivityType
 } from "discord.js";
 import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
