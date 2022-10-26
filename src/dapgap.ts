@@ -3,12 +3,15 @@ import type { User } from "discord.js";
 import type { Collection } from "mongoose";
 
 interface streakOutput {
-	streak: number,
-	lastDapHeute: boolean
+	streak: number;
+	lastDapHeute: boolean;
 }
 
-export const getStreaks = async (user1: User, user2: User): Promise<streakOutput | never> => {
-	type DapDocument = Collection & { createdAt: Date, updatedat: Date };
+export const getStreaks = async (
+	user1: User,
+	user2: User
+): Promise<streakOutput | never> => {
+	type DapDocument = Collection & { createdAt: Date; updatedat: Date };
 	const DapData: DapDocument[] = await DapChain.find(
 		{
 			$or: [
@@ -20,8 +23,9 @@ export const getStreaks = async (user1: User, user2: User): Promise<streakOutput
 		{ sort: "-date" }
 	);
 	let lastDapHeute: boolean =
-		Date.now() - (DapData[DapData.length - 1]?.createdAt.getTime() ||
-		Infinity) < 86400000;
+		Date.now() -
+			(DapData[DapData.length - 1]?.createdAt.getTime() || Infinity) <
+		86400000;
 	if (DapData.length === 0) {
 		return { streak: 0, lastDapHeute };
 	} else if (DapData.length === 1) {
@@ -38,6 +42,6 @@ export const getStreaks = async (user1: User, user2: User): Promise<streakOutput
 			else return { streak, lastDapHeute };
 		}
 		return { streak, lastDapHeute };
-	};
-	throw Error("Impossible condition")
+	}
+	throw Error("Impossible condition");
 };

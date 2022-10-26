@@ -5,7 +5,7 @@ import {
 	Collection,
 	GatewayIntentBits,
 	Routes,
-	ActivityType
+	ActivityType,
 } from "discord.js";
 import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
@@ -38,7 +38,7 @@ rest
 	.catch(console.error);
 
 client.once("ready", async () => {
-	if (!client.user) throw Error("Unexpected: client.user is null")
+	if (!client.user) throw Error("Unexpected: client.user is null");
 	client.user.setActivity("/dap", { type: ActivityType.Listening });
 	console.log("Connected to Discord API!");
 	mongoose.connect(mongo!, (error) => {
