@@ -1,5 +1,6 @@
 // stats with a certain person, how many daps youve recieved or given
 import { SlashCommandBuilder, EmbedBuilder, Client } from "discord.js";
+import { getStreaks } from "../dapgap";
 export default {
 	data: new SlashCommandBuilder()
 		.setName("stats")
@@ -31,7 +32,6 @@ export default {
 				"You tried to view the stats of a bot, but it didn't respond"
 			);
 
-		const { getStreaks } = require("../dapgap");
 		let { streak } = await getStreaks(interaction.member, member);
 
 		const { GuildDapSchema } = (client as any).Schema;

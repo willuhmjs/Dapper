@@ -2,7 +2,12 @@ import { DapChain } from "./models";
 import type { User } from "discord.js";
 import type { Collection } from "mongoose";
 
-exports.getStreaks = async (user1: User, user2: User) => {
+interface streakOutput {
+	streak: number,
+	lastDapHeute: boolean
+}
+
+export const getStreaks = async (user1: User, user2: User): Promise<streakOutput | never> => {
 	type DapDocument = Collection & { createdAt: Date, updatedat: Date };
 	const DapData: DapDocument[] = await DapChain.find(
 		{
@@ -14,9 +19,9 @@ exports.getStreaks = async (user1: User, user2: User) => {
 		null,
 		{ sort: "-date" }
 	);
-	let lastDapHeute =
-		Date.now() - DapData[DapData.length - 1]?.createdAt.getTime() ||
-		Infinity < 86400000;
+	let lastDapHeute: boolean =
+		Date.now() - (DapData[DapData.length - 1]?.createdAt.getTime() ||
+		Infinity) < 86400000;
 	if (DapData.length === 0) {
 		return { streak: 0, lastDapHeute };
 	} else if (DapData.length === 1) {
@@ -33,5 +38,6 @@ exports.getStreaks = async (user1: User, user2: User) => {
 			else return { streak, lastDapHeute };
 		}
 		return { streak, lastDapHeute };
-	}
+	};
+	throw Error("Impossible condition")
 };
