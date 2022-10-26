@@ -1,26 +1,26 @@
 {
-  "name": "dapper",
-  "version": "1.0.0",
-  "description": "a dapper bot for dapper dapping",
-  "main": "src/index.js",
-  "author": "Will Faircloth",
-  "dependencies": {
-    "discord.js": "^14.5.0",
-    "dotenv": "^16.0.3",
-    "mongoose": "^6.6.5",
-    "pagination.djs": "^4.0.5"
-  },
-  "scripts": {
-    "start": "yarn build && node dist/index.js",
-    "build": "tsc",
-    "dev": "nodemon -q --exec \"yarn start\" src/index.js",
-    "format": "yarn prettier --write ."
-  },
-  "devDependencies": {
-    "@types/mongoose": "^5.11.97",
-    "@types/node": "^18.11.6",
-    "nodemon": "^2.0.20",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.4"
-  }
+	"name": "dapper",
+	"version": "1.0.0",
+	"description": "a dapper bot for dapper dapping",
+	"main": "src/index.js",
+	"author": "Will Faircloth",
+	"dependencies": {
+		"discord.js": "^14.5.0",
+		"dotenv": "^16.0.3",
+		"mongoose": "^6.6.5",
+		"pagination.djs": "^4.0.5"
+	},
+	"scripts": {
+		"start": "yarn build && node dist/index.js",
+		"build": "tsc",
+		"dev": "nodemon -q --exec \"yarn start\" src/index.js",
+		"format": "yarn prettier --write ."
+	},
+	"devDependencies": {
+		"@types/mongoose": "^5.11.97",
+		"@types/node": "^18.11.6",
+		"nodemon": "^2.0.20",
+		"prettier": "^2.7.1",
+		"typescript": "^4.8.4"
+	}
 }
