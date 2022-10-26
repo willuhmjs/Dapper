@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 import { clientId, token, mongo } from "./config";
 import { GuildDapSchema, DapChain } from "./models";
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const commands = [];
 (client as any).Schema = { GuildDapSchema, DapChain };
