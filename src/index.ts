@@ -12,6 +12,9 @@ import mongoose from "mongoose";
 import { clientId, token, mongo } from "./config";
 import { GuildDapSchema, DapChain } from "./models";
 
+if (!token) throw Error("No token!");
+if (!clientId) throw Error("No clientId!");
+
 const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const commands = [];
@@ -30,18 +33,19 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: "10" }).setToken(token!);
+const rest = new REST({ version: "10" }).setToken(token);
 
 rest
-	.put(Routes.applicationCommands(clientId!), { body: commands })
+	.put(Routes.applicationCommands(clientId), { body: commands })
 	.then(() => console.log("Successfully registered application commands."))
 	.catch(console.error);
 
 client.once("ready", async () => {
+	if (!mongo) throw Error("No mongo!"); 
 	if (!client.user) throw Error("Unexpected: client.user is null");
 	client.user.setActivity("/dap", { type: ActivityType.Listening });
 	console.log("Connected to Discord API!");
-	mongoose.connect(mongo!, (error) => {
+	mongoose.connect(mongo, (error) => {
 		if (error) throw error;
 		else console.log("Connected to MongoDB");
 		//client.user.setAvatar("https://media.discordapp.net/attachments/1028766392989794444/1029202069812424764/dapper.png?width=406&height=406");
