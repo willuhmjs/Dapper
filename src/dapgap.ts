@@ -25,11 +25,12 @@ export const getStreaks = async (
 	let lastDapHeute: boolean =
 		(Date.now() - DapData[DapData.length - 1]?.createdAt.getTime() ||
 			Infinity) < 86400000;
-	if (DapData.length === 0) {
+	if (DapData.length == 0) {
 		return { streak: 0, lastDapHeute };
-	} else if (DapData.length === 1) {
+	} else if (DapData.length == 1) {
+		console.log(Date.now() - DapData[0].createdAt.getTime());
 		if (Date.now() - DapData[0].createdAt.getTime() < 86400000)
-			return { streak: 1, lastDapHeute };
+			return { streak: 1, lastDapHeute }; else return { streak: 0, lastDapHeute };
 	} else if (DapData.length > 1) {
 		let streak = 1;
 		for (let i = 1; i < DapData.length; i++) {
