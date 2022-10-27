@@ -4,7 +4,7 @@ import type { Collection } from "mongoose";
 
 interface streakOutput {
 	streak: number;
-	lastDapHeute: boolean;
+	lastDapCooldown: boolean;
 }
 
 export const getStreaks = async (
@@ -22,15 +22,15 @@ export const getStreaks = async (
 		null,
 		{ sort: "-date" }
 	);
-	let lastDapHeute: boolean =
+	let lastDapCooldown: boolean =
 		(Date.now() - DapData[DapData.length - 1]?.createdAt.getTime() ||
-			Infinity) < 86400000;
+			Infinity) < 30000;
 	if (DapData.length == 0) {
-		return { streak: 0, lastDapHeute };
+		return { streak: 0, lastDapCooldown };
 	} else if (DapData.length == 1) {
 		console.log(Date.now() - DapData[0].createdAt.getTime());
 		if (Date.now() - DapData[0].createdAt.getTime() < 86400000)
-			return { streak: 1, lastDapHeute }; else return { streak: 0, lastDapHeute };
+			return { streak: 1, lastDapCooldown }; else return { streak: 0, lastDapCooldown };
 	} else if (DapData.length > 1) {
 		let streak = 1;
 		for (let i = 1; i < DapData.length; i++) {
@@ -39,9 +39,9 @@ export const getStreaks = async (
 				86400000
 			)
 				streak++;
-			else return { streak, lastDapHeute };
+			else return { streak, lastDapCooldown };
 		}
-		return { streak, lastDapHeute };
+		return { streak, lastDapCooldown };
 	}
 	throw Error("Impossible condition");
 };

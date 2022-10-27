@@ -44,8 +44,8 @@ export default {
 		const addDap = Math.floor(Math.random() * (60 - 30) + 30);
 
 		const { getStreaks } = require("../dapgap");
-		const { lastDapHeute } = await getStreaks(giver, reciever);
-		if (lastDapHeute) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
+		const { lastDapCooldown } = await getStreaks(giver, reciever);
+		if (lastDapCooldown) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
 
 		const { GuildDapSchema, DapChain } = (client as any).Schema;
 		// push transaction to dapchain
