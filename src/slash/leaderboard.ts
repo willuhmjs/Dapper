@@ -1,9 +1,11 @@
-import { SlashCommandBuilder, EmbedBuilder, Client, GuildMember } from "discord.js";
-export default {
+import { SlashCommandBuilder, GuildMember } from "discord.js";
+import type { CommandLike } from "./command";
+
+export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("leaderboard")
 		.setDescription("Displays the leaderboard for your server."),
-	async execute(client: Client, interaction: any) {
+	async execute(client, interaction) {
 		const { GuildDapSchema } = (client as any).Schema;
 		const { Pagination } = require("pagination.djs");
 		const pagination = new Pagination(interaction, {

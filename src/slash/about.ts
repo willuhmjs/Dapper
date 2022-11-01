@@ -1,9 +1,11 @@
-import { SlashCommandBuilder, EmbedBuilder, Client } from "discord.js";
-export default {
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import type { CommandLike } from "./command";
+
+export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("about")
 		.setDescription("Sends an ephemeral message with info about the bot."),
-	async execute(client: Client, interaction: any) {
+	async execute(client, interaction) {
 		const replyEmbed = new EmbedBuilder()
 			.setColor("Green")
 			.setTitle("About")
