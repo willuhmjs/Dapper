@@ -1,5 +1,7 @@
-import { SlashCommandBuilder, EmbedBuilder, Client, User } from "discord.js";
-export default {
+import { SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import type { CommandLike } from "./command";
+
+export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("dap")
 		.setDescription("Dap up another member!")
@@ -9,7 +11,7 @@ export default {
 				.setDescription("The server member you want to dap up.")
 				.setRequired(true)
 		),
-	async execute(client: Client, interaction: any) {
+	async execute(client, interaction) {
 		function embedReply(text: string, error = false, footer?: string) {
 			const color = error ? "Red" : "Green";
 			const replyEmbed = new EmbedBuilder()
@@ -21,7 +23,10 @@ export default {
 			interaction.reply({ embeds: [replyEmbed], ephemeral: error });
 		}
 
-		let reciever: User = interaction.options.getUser("member");
+		let reciever: User | null = interaction.options.getUser("member");
+
+		if (!reciever) return embedReply("You tried to dap up a ghost.", true);
+
 		let giver: User = interaction.user;
 		let guildId = interaction.guild.id;
 		let isGuildMember = interaction.guild.members.cache.has(reciever.id);

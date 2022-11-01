@@ -1,42 +1,37 @@
-import fs from "node:fs";
-import path from "node:path";
+import { commands } from "./slash"
 import {
 	Client,
 	Collection,
 	GatewayIntentBits,
 	Routes,
 	ActivityType,
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from "discord.js";
 import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
 import { clientId, token, mongo } from "./config";
 import { GuildDapSchema, DapChain } from "./models";
+import type { CommandLike, ChatInputCommandAssertedInteraction }	from "./slash/command"
 
 if (!token) throw Error("No token!");
 if (!clientId) throw Error("No clientId!");
 
 const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const commands = [];
 (client as any).Schema = { GuildDapSchema, DapChain };
-(client as any).commands = new Collection();
+const commandList = new Collection<string, CommandLike>();
 
-const commandsPath = path.join(__dirname, "slash");
-const commandFiles = fs
-	.readdirSync(commandsPath)
-	.filter((file) => file.endsWith(".js"));
+const commandData: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
 
-for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath).default;
-	(client as any).commands.set(command.data.name, command);
-	commands.push(command.data.toJSON());
+for (const command of commands) {
+	commandList.set(command.data.name, command);
+	commandData.push(command.data.toJSON());
 }
 
 const rest = new REST({ version: "10" }).setToken(token);
 
 rest
-	.put(Routes.applicationCommands(clientId), { body: commands })
+	.put(Routes.applicationCommands(clientId), { body: commandData })
 	.then(() => console.log("Successfully registered application commands."))
 	.catch(console.error);
 
@@ -56,12 +51,12 @@ client.on("interactionCreate", async (interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 	if (!interaction.guild) return;
 
-	const command = (client as any).commands.get(interaction.commandName);
+	const command = commandList.get(interaction.commandName);
 
 	if (!command) return;
 
 	try {
-		await command.execute(client, interaction);
+		await command.execute(client, interaction as ChatInputCommandAssertedInteraction);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({

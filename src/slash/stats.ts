@@ -1,7 +1,9 @@
 // stats with a certain person, how many daps youve recieved or given
-import { SlashCommandBuilder, EmbedBuilder, Client, GuildMember } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, GuildMember } from "discord.js";
 import { getStreaks } from "../dapgap";
-export default {
+import type { CommandLike } from "./command";
+
+export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("stats")
 		.setDescription("View the dap stats of another member.")
@@ -11,7 +13,7 @@ export default {
 				.setDescription("The server member who you want to view stats from.")
 				.setRequired(false)
 		),
-	async execute(client: Client, interaction: any) {
+	async execute(client, interaction) {
 		function embedError(text: string) {
 			const replyEmbed = new EmbedBuilder()
 				.setColor("Red")
@@ -21,7 +23,10 @@ export default {
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
 
-		let member: GuildMember = interaction.options.getMember("member") || interaction.member;
+		let member = (interaction.options.getMember("member") || interaction.member) as GuildMember | null;
+
+		if (!member) return embedError("You tried to view stats of a ghost.");
+
 		let isGuildMember = interaction.guild.members.cache.has(member.id);
 		if (!isGuildMember)
 			return embedError(
@@ -31,8 +36,8 @@ export default {
 			return embedError(
 				"You tried to view the stats of a bot, but it didn't respond"
 			);
-
-		let { streak } = await getStreaks(interaction.member, member);
+		
+		let { streak } = await getStreaks(interaction.member as GuildMember , member);
 
 		const { GuildDapSchema } = (client as any).Schema;
 		let UserGuildData =
