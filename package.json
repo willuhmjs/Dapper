@@ -11,9 +11,8 @@
 		"pagination.djs": "^4.0.5"
 	},
 	"scripts": {
-		"start": "yarn build && node --enable-source-maps dist/index.js",
+		"start": "yarn build && node --enable-source-maps dist/src/index.js",
 		"build": "tsc",
-		"dev": "nodemon -q --exec \"yarn start\" src/index.js",
 		"format": "yarn prettier --write .",
 		"test": "jest"
 	},
