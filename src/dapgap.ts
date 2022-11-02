@@ -30,7 +30,7 @@ export const getStreaks = async (
 
 	const data = dapData.map(document => +document.createdAt)
 	return {
-		streak: streak(data, 1000 * 60 * 60 * 24),
+		streak: streak([Date.now(), ...data], 1000 * 60 * 60 * 24),
 		lastDapCooldown
 	}
 };
