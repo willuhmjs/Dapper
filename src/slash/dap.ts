@@ -46,11 +46,10 @@ export default <CommandLike>{
 				true
 			);
 
-		const addDap = Math.floor(Math.random() * (60 - 30) + 30);
+		const addDap = Math.floor(Math.random() * (15 - 5) + 5);
 
 		const { getStreaks } = require("../dapgap");
 		const { lastDapCooldown } = await getStreaks(giver, reciever);
-		if (lastDapCooldown) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
 
 		const { GuildDapSchema, DapChain } = (client as any).Schema;
 		// push transaction to dapchain
@@ -59,6 +58,8 @@ export default <CommandLike>{
 			recieverId: reciever.id,
 			guildId: interaction.guild.id,
 		}).save();
+
+		if (lastDapCooldown) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
 
 		// update GIVER
 
