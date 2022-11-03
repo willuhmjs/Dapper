@@ -23,7 +23,8 @@ export default <CommandLike>{
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
 
-		let member = (interaction.options.getMember("member") || interaction.member) as GuildMember | null;
+		let member = (interaction.options.getMember("member") ||
+			interaction.member) as GuildMember | null;
 
 		if (!member) return embedError("You tried to view stats of a ghost.");
 
@@ -36,8 +37,11 @@ export default <CommandLike>{
 			return embedError(
 				"You tried to view the stats of a bot, but it didn't respond"
 			);
-		
-		let { streak } = await getStreaks(interaction.member as GuildMember , member);
+
+		let { streak } = await getStreaks(
+			interaction.member as GuildMember,
+			member
+		);
 
 		const { GuildDapSchema } = (client as any).Schema;
 		let UserGuildData =
@@ -47,7 +51,9 @@ export default <CommandLike>{
 			})) || {};
 		const replyEmbed = new EmbedBuilder()
 			.setColor("Green")
-			.setTitle(`Statistics for  \`${member.nickname || member.user.username}\``)
+			.setTitle(
+				`Statistics for  \`${member.nickname || member.user.username}\``
+			)
 			.setDescription(
 				`**${UserGuildData.userDap || 0}** DapScore.\n**${
 					UserGuildData.dapsGiven || 0

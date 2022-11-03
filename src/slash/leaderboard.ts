@@ -23,7 +23,9 @@ export default <CommandLike>{
 			.limit(100);
 		for (let i = 0; i < guildUsers.length; i++) {
 			const guildUser = guildUsers[i];
-			let guildMember: GuildMember = await interaction.guild.members.fetch(guildUser.userId);
+			let guildMember: GuildMember = await interaction.guild.members.fetch(
+				guildUser.userId
+			);
 
 			users.push(
 				`${i + 1}. **${guildMember.nickname || guildMember.user.username}:** ${

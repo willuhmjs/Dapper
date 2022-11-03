@@ -1,4 +1,4 @@
-import { commands } from "./slash"
+import { commands } from "./slash";
 import {
 	Client,
 	Collection,
@@ -11,7 +11,10 @@ import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
 import { clientId, token, mongo } from "./config";
 import { GuildDapSchema, DapChain } from "./models";
-import type { CommandLike, ChatInputCommandAssertedInteraction }	from "./slash/command"
+import type {
+	CommandLike,
+	ChatInputCommandAssertedInteraction,
+} from "./slash/command";
 
 if (!token) throw Error("No token!");
 if (!clientId) throw Error("No clientId!");
@@ -21,7 +24,7 @@ const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 (client as any).Schema = { GuildDapSchema, DapChain };
 const commandList = new Collection<string, CommandLike>();
 
-const commandData: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
+const commandData: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
 for (const command of commands) {
 	commandList.set(command.data.name, command);
@@ -56,7 +59,10 @@ client.on("interactionCreate", async (interaction) => {
 	if (!command) return;
 
 	try {
-		await command.execute(client, interaction as ChatInputCommandAssertedInteraction);
+		await command.execute(
+			client,
+			interaction as ChatInputCommandAssertedInteraction
+		);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({

@@ -28,9 +28,11 @@ export const getStreaks = async (
 		(Date.now() - dapData[dapData.length - 1]?.createdAt.getTime() ||
 			Infinity) < 30000;
 
-	const data = dapData.map(document => +document.createdAt)
+	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)];
+	const index = streak(data, 1000 * 60 * 60 * 24);
+
 	return {
-		streak: streak([Date.now(), ...data], 1000 * 60 * 60 * 24),
-		lastDapCooldown
-	}
+		streak: Math.floor((Date.now() - data[index]) / (1000 * 60 * 60 * 24)) + 1,
+		lastDapCooldown,
+	};
 };

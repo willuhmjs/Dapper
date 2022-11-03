@@ -59,7 +59,8 @@ export default <CommandLike>{
 			guildId: interaction.guild.id,
 		}).save();
 
-		if (lastDapCooldown) return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
+		if (lastDapCooldown)
+			return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
 
 		// update GIVER
 
