@@ -53,14 +53,18 @@ export default <CommandLike>{
 
 		const { GuildDapSchema, DapChain } = (client as any).Schema;
 		// push transaction to dapchain
-		await new DapChain({
+		const dap = new DapChain({
 			giverId: giver.id,
 			recieverId: reciever.id,
 			guildId: interaction.guild.id,
-		}).save();
+		})
 
-		if (lastDapCooldown)
+		if (lastDapCooldown) {
+			dap.gainedScore = false;
 			return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
+		}
+
+		await dap.save();
 
 		// update GIVER
 
