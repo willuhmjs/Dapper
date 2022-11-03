@@ -12,7 +12,11 @@ export const getStreaks = async (
 	user1: User | GuildMember,
 	user2: User | GuildMember
 ): Promise<streakOutput> => {
-	type DapDocument = Collection & { createdAt: Date; updatedat: Date; gainedScore: Boolean };
+	type DapDocument = Collection & {
+		createdAt: Date;
+		updatedat: Date;
+		gainedScore: Boolean;
+	};
 	const dapData: DapDocument[] = await DapChain.find(
 		{
 			$or: [
@@ -25,7 +29,7 @@ export const getStreaks = async (
 	);
 	let lastDapCooldown: boolean =
 		(Date.now() - dapData[dapData.length - 1]?.createdAt.getTime() ||
-			Infinity) < 30000 && dapData[dapData.length-1].gainedScore == true;
+			Infinity) < 30000 && dapData[dapData.length - 1].gainedScore == true;
 
 	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)];
 	const index = streak(data, 1000 * 60 * 60 * 24);

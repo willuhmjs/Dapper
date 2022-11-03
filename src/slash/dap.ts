@@ -57,7 +57,7 @@ export default <CommandLike>{
 			giverId: giver.id,
 			recieverId: reciever.id,
 			guildId: interaction.guild.id,
-		})
+		});
 
 		if (lastDapCooldown) {
 			dap.gainedScore = false;

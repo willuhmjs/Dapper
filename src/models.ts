@@ -15,7 +15,7 @@ const Dapchain = new Schema(
 		giverId: { type: String, required: true },
 		recieverId: { type: String, required: true },
 		guildId: { type: String, required: true },
-		gainedScore: { type: Boolean, required: true, default: true }
+		gainedScore: { type: Boolean, required: true, default: true },
 	},
 	{ timestamps: true }
 );
