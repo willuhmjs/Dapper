@@ -23,14 +23,14 @@ export default <CommandLike>{
 
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
-
+		
 		function sendDap(text: string, attachment: Buffer, footer: string | null = null) {
 			const replyEmbed = new EmbedBuilder()
 				.setColor("Green")
 				.setDescription(text)
 				.setTimestamp();
 			if (footer) replyEmbed.setFooter({ text: footer })
-			interaction.reply({ embeds: [replyEmbed], files: [{ attachment, name: "dap.png" }]});
+			interaction.editReply({ embeds: [replyEmbed], files: [{ attachment, name: "dap.jpg" }]});
 		}
 
 		let reciever: User | null = interaction.options.getUser("member");
@@ -54,6 +54,7 @@ export default <CommandLike>{
 				"You tried to dap up a robot, but it had no hands."
 			);
 
+		await interaction.deferReply();
 		const addDap = Math.floor(Math.random() * (15 - 5) + 5);
 
 		const { lastDapCooldown } = await getStreaks(giver, reciever);

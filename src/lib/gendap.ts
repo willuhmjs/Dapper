@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { join } from "node:path";
+import { resolve } from "node:path";
 import { Canvas, loadImage } from 'canvas-constructor/napi-rs';
 import sizeOf from "image-size";
 import { User } from 'discord.js';
@@ -8,7 +8,7 @@ const options = [{
 	pfpsize: 400,
 	user1coords: {x: 566, y: 1240 },
 	user2coords: {x: 1740, y: 1064 },
-	src: "../images/0.png"
+	src: "../images/0.jpg"
 }
 ]
 
@@ -17,10 +17,10 @@ export default async (user1: User | TestUser, user2: User | TestUser) => {
 
 
 const choice = options[Math.floor(Math.random() * options.length)];
-const ip = join(__dirname, choice.src)
+const ip = resolve(__dirname, choice.src)
 const image = await loadImage(readFileSync(ip));
-const user1avatar = await loadImage(user1.displayAvatarURL({ extension: "png" }))
-const user2avatar = await loadImage(user2.displayAvatarURL({ extension: "png" }))
+const user1avatar = await loadImage(user1.displayAvatarURL({ extension: "jpg" }))
+const user2avatar = await loadImage(user2.displayAvatarURL({ extension: "jpg" }))
 
 const dimensions = sizeOf(ip)
 if (!dimensions.width || !dimensions.height) throw Error("problem getting dimensions!");
