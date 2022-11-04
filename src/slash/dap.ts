@@ -33,11 +33,7 @@ export default <CommandLike>{
 				.setDescription(text)
 				.setTimestamp();
 			if (footer) replyEmbed.setFooter({ text: footer });
-			/*interaction.editReply({
-				embeds: [replyEmbed],
-				files: [{ attachment, name: "dap.jpg" }],
-			});*/
-			interaction.reply({
+			interaction.editReply({
 				embeds: [replyEmbed],
 				files: [{ attachment, name: "dap.jpg" }],
 			});
@@ -59,7 +55,7 @@ export default <CommandLike>{
 		if (reciever.bot)
 			return error("You tried to dap up a robot, but it had no hands.");
 
-		//await interaction.deferReply();
+		await interaction.deferReply();
 		const addDap = Math.floor(Math.random() * (15 - 5) + 5);
 
 		const { lastDapCooldown } = await getStreaks(giver, reciever);
