@@ -73,7 +73,8 @@ export default <CommandLike>{
 				dapsGiven: 1,
 				guildId,
 			});
-			if (!lastDapCooldown) giverGuildDap.userDap = addDap && await giverGuildDap.save();
+			if (!lastDapCooldown)
+				giverGuildDap.userDap = addDap && (await giverGuildDap.save());
 		} else {
 			if (!lastDapCooldown) giverGuildDap.userDap += addDap;
 			giverGuildDap.dapsGiven++;
