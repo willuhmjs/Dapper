@@ -31,6 +31,7 @@ export default <CommandLike>{
 			const replyEmbed = new EmbedBuilder()
 				.setColor("Green")
 				.setDescription(text)
+				.setImage("attachment://dap.jpg")
 				.setTimestamp();
 			if (footer) replyEmbed.setFooter({ text: footer });
 			interaction.editReply({
