@@ -10,7 +10,7 @@ interface ImageChoice {
 	user2coords: { x: number; y: number };
 	fileNumber: number;
 	buffer: Buffer;
-	image: Promise<Image>
+	image: Promise<Image>;
 }
 function generateImage(
 	choice: Omit<ImageChoice, "buffer" | "image">
@@ -28,7 +28,7 @@ function generateImage(
 const options: ImageChoice[] = [
 	generateImage({
 		pfpsize: 400,
-		user1coords: { x: 566, y: 1240 },
+		user1coords: { x: 532, y: 1240 },
 		user2coords: { x: 1740, y: 1064 },
 		fileNumber: 0,
 	}),
