@@ -59,11 +59,6 @@ export default <CommandLike>{
 			guildId: interaction.guild.id,
 		});
 
-		if (lastDapCooldown) {
-			dap.gainedScore = false;
-			return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
-		}
-
 		await dap.save();
 
 		// update GIVER
@@ -73,14 +68,14 @@ export default <CommandLike>{
 			guildId,
 		});
 		if (!giverGuildDap) {
-			giverGuildDap = await new GuildDapSchema({
+			giverGuildDap = new GuildDapSchema({
 				userId: giver.id,
-				userDap: addDap,
 				dapsGiven: 1,
 				guildId,
-			}).save();
+			});
+			if (!lastDapCooldown) giverGuildDap.userDap = addDap && await giverGuildDap.save();
 		} else {
-			giverGuildDap.userDap += addDap;
+			if (!lastDapCooldown) giverGuildDap.userDap += addDap;
 			giverGuildDap.dapsGiven++;
 			await giverGuildDap.save();
 		}
@@ -92,16 +87,22 @@ export default <CommandLike>{
 			guildId,
 		});
 		if (!recieverGuildDap) {
-			recieverGuildDap = await new GuildDapSchema({
+			recieverGuildDap = new GuildDapSchema({
 				userId: reciever.id,
-				userDap: addDap,
 				dapsRecieved: 1,
 				guildId,
-			}).save();
+			});
+			if (!lastDapCooldown) recieverGuildDap.userDap = addDap;
+			await recieverGuildDap.save();
 		} else {
-			recieverGuildDap.userDap += addDap;
+			if (!lastDapCooldown) recieverGuildDap.userDap += addDap;
 			recieverGuildDap.dapsRecieved++;
 			await recieverGuildDap.save();
+		}
+
+		if (lastDapCooldown) {
+			dap.gainedScore = false;
+			return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
 		}
 
 		return embedReply(
