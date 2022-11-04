@@ -3,7 +3,6 @@ import gendap from "../lib/gendap";
 import type { CommandLike } from "./command";
 import { getStreaks } from "../lib/dapgap";
 
-
 export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("dap")
@@ -23,19 +22,25 @@ export default <CommandLike>{
 
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
-		
-		function sendDap(text: string, attachment: Buffer, footer: string | null = null) {
+
+		function sendDap(
+			text: string,
+			attachment: Buffer,
+			footer: string | null = null
+		) {
 			const replyEmbed = new EmbedBuilder()
 				.setColor("Green")
 				.setDescription(text)
 				.setTimestamp();
-			if (footer) replyEmbed.setFooter({ text: footer })
-			interaction.editReply({ embeds: [replyEmbed], files: [{ attachment, name: "dap.jpg" }]});
+			if (footer) replyEmbed.setFooter({ text: footer });
+			interaction.editReply({
+				embeds: [replyEmbed],
+				files: [{ attachment, name: "dap.jpg" }],
+			});
 		}
 
 		let reciever: User | null = interaction.options.getUser("member");
 
-		
 		if (!reciever) return error("You tried to dap up a ghost.");
 
 		let giver: User = interaction.user;
@@ -46,13 +51,9 @@ export default <CommandLike>{
 				"You tried to dap up someone from another server. It didn't go well."
 			);
 		if (reciever.id == giver.id)
-			return error(
-				"You tried to dap up yourself, but you looked too lonely."
-			);
+			return error("You tried to dap up yourself, but you looked too lonely.");
 		if (reciever.bot)
-			return error(
-				"You tried to dap up a robot, but it had no hands."
-			);
+			return error("You tried to dap up a robot, but it had no hands.");
 
 		await interaction.deferReply();
 		const addDap = Math.floor(Math.random() * (15 - 5) + 5);
@@ -108,8 +109,8 @@ export default <CommandLike>{
 			recieverGuildDap.dapsRecieved++;
 			await recieverGuildDap.save();
 		}
-		
-		const dapImage = await gendap(giver, reciever)
+
+		const dapImage = await gendap(giver, reciever);
 
 		if (lastDapCooldown) {
 			dap.gainedScore = false;
@@ -117,7 +118,9 @@ export default <CommandLike>{
 		}
 
 		return sendDap(
-			`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage,
-			`+${addDap} DapScore`);
+			`<@${giver.id}> 🤝 <@${reciever.id}>`,
+			dapImage,
+			`+${addDap} DapScore`
+		);
 	},
 };
