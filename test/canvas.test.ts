@@ -1,5 +1,4 @@
 import gendap from "../src/lib/gendap";
-import { writeFileSync } from "node:fs";
 
 test("generated image is type buffer", async () => {
 	type TestUser = { displayAvatarURL: () => string }
