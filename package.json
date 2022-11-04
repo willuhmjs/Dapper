@@ -15,7 +15,9 @@
 	},
 	"scripts": {
 		"start": "yarn build && node --enable-source-maps dist/src/index.js",
-		"build": "tsc",
+		"build": "yarn clean && tsc && yarn copy-files",
+		"clean": "rm -rf ./dist",
+		"copy-files": "cp -r ./src/images/ ./dist/",
 		"format": "yarn prettier --write .",
 		"test": "jest"
 	},

@@ -1,5 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
+import gendap from "../lib/gendap";
 import type { CommandLike } from "./command";
+import { getStreaks } from "../lib/dapgap";
+
 
 export default <CommandLike>{
 	data: new SlashCommandBuilder()
@@ -12,43 +15,47 @@ export default <CommandLike>{
 				.setRequired(true)
 		),
 	async execute(client, interaction) {
-		function embedReply(text: string, error = false, footer?: string) {
-			const color = error ? "Red" : "Green";
+		function error(text: string) {
 			const replyEmbed = new EmbedBuilder()
-				.setColor(color)
+				.setColor("Red")
 				.setDescription(text)
 				.setTimestamp();
 
-			if (footer) replyEmbed.setFooter({ text: footer });
-			interaction.reply({ embeds: [replyEmbed], ephemeral: error });
+			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
+		}
+
+		function sendDap(text: string, attachment: Buffer, footer: string | null = null) {
+			const replyEmbed = new EmbedBuilder()
+				.setColor("Green")
+				.setDescription(text)
+				.setTimestamp();
+			if (footer) replyEmbed.setFooter({ text: footer })
+			interaction.reply({ embeds: [replyEmbed], files: [{ attachment, name: "dap.png" }]});
 		}
 
 		let reciever: User | null = interaction.options.getUser("member");
 
-		if (!reciever) return embedReply("You tried to dap up a ghost.", true);
+		
+		if (!reciever) return error("You tried to dap up a ghost.");
 
 		let giver: User = interaction.user;
 		let guildId = interaction.guild.id;
 		let isGuildMember = interaction.guild.members.cache.has(reciever.id);
 		if (!isGuildMember)
-			return embedReply(
-				"You tried to dap up someone from another server. It didn't go well.",
-				true
+			return error(
+				"You tried to dap up someone from another server. It didn't go well."
 			);
 		if (reciever.id == giver.id)
-			return embedReply(
-				"You tried to dap up yourself, but you looked too lonely.",
-				true
+			return error(
+				"You tried to dap up yourself, but you looked too lonely."
 			);
 		if (reciever.bot)
-			return embedReply(
-				"You tried to dap up a robot, but it had no hands.",
-				true
+			return error(
+				"You tried to dap up a robot, but it had no hands."
 			);
 
 		const addDap = Math.floor(Math.random() * (15 - 5) + 5);
 
-		const { getStreaks } = require("../dapgap");
 		const { lastDapCooldown } = await getStreaks(giver, reciever);
 
 		const { GuildDapSchema, DapChain } = (client as any).Schema;
@@ -100,16 +107,16 @@ export default <CommandLike>{
 			recieverGuildDap.dapsRecieved++;
 			await recieverGuildDap.save();
 		}
+		
+		const dapImage = await gendap(giver, reciever)
 
 		if (lastDapCooldown) {
 			dap.gainedScore = false;
-			return embedReply(`<@${giver.id}> 🤝 <@${reciever.id}>`);
+			return sendDap(`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage);
 		}
 
-		return embedReply(
-			`<@${giver.id}> 🤝 <@${reciever.id}>`,
-			false,
-			`+${addDap} DapScore`
-		);
+		return sendDap(
+			`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage,
+			`+${addDap} DapScore`);
 	},
 };
