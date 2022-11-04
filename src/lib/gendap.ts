@@ -9,8 +9,8 @@ interface ImageChoice {
 	user1coords: { x: number; y: number };
 	user2coords: { x: number; y: number };
 	fileNumber: number;
-	buffer: Buffer; // TODO
-	image: Promise<Image> // TODO
+	buffer: Buffer;
+	image: Promise<Image>
 }
 function generateImage(
 	choice: Omit<ImageChoice, "buffer" | "image">
