@@ -4,8 +4,8 @@ test("empty streak returns -1", () => {
 	expect(streak([], 1)).toBe(-1);
 });
 
-test("single-element streak returns 1", () => {
-	expect(streak([431434], 0)).toBe(0);
+test("single-element streak returns -1", () => {
+	expect(streak([431434], 0)).toBe(-1);
 });
 
 test("streak can count normally", () => {

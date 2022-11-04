@@ -11,7 +11,7 @@
  * ```
  */
 export function streak(numbers: number[], maxGap: number): number {
-	if (numbers.length === 1) return -1;
+	if (numbers.length <= 1) return -1;
 
 	// The amount of numbers in a row
 	let streakAmount = 0;
