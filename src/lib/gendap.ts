@@ -10,23 +10,23 @@ interface ImageChoice {
 	user2coords: { x: number; y: number };
 	fileNumber: number;
 	buffer: Buffer; // TODO
-	image: Image; // TODO
+	image: Promise<Image> // TODO
 }
-async function generateImage(
+function generateImage(
 	choice: Omit<ImageChoice, "buffer" | "image">
-): Promise<ImageChoice> {
+): ImageChoice {
 	const buffer: Buffer = readFileSync(
 		resolve(__dirname, `../images/${choice.fileNumber}.jpg`)
 	);
 	return {
 		...choice,
 		buffer,
-		image: await loadImage(buffer),
+		image: loadImage(buffer),
 	};
 }
 
 const options: ImageChoice[] = [
-	await generateImage({
+	generateImage({
 		pfpsize: 400,
 		user1coords: { x: 566, y: 1240 },
 		user2coords: { x: 1740, y: 1064 },
@@ -45,7 +45,6 @@ export default async (user1: User | TestUser, user2: User | TestUser) => {
 	);
 
 	const dimensions = sizeOf(choice.buffer);
-	console.log(choice.image);
 	if (!dimensions.width || !dimensions.height)
 		throw Error("problem getting dimensions!");
 	return new Canvas(dimensions.width, dimensions.height)
