@@ -12,10 +12,9 @@ interface ImageChoice {
 	buffer: Buffer; // TODO
 	image: Image; // TODO
 }
-
 async function generateImage(
 	choice: Omit<ImageChoice, "buffer" | "image">
-): ImageChoice {
+): Promise<ImageChoice> {
 	const buffer: Buffer = readFileSync(
 		resolve(__dirname, `../images/${choice.fileNumber}.jpg`)
 	);
@@ -27,7 +26,7 @@ async function generateImage(
 }
 
 const options: ImageChoice[] = [
-	generateImage({
+	await generateImage({
 		pfpsize: 400,
 		user1coords: { x: 566, y: 1240 },
 		user2coords: { x: 1740, y: 1064 },
