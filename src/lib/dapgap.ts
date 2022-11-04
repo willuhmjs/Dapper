@@ -1,8 +1,8 @@
-import { DapChain } from "./models";
+import { DapChain } from "../models";
 import type { GuildMember, User } from "discord.js";
 import type { Collection } from "mongoose";
-import { streak } from "./lib/streak";
-import { cooldown } from "./config";
+import { streak } from "./streak";
+import { cooldown } from "../config";
 
 interface streakOutput {
 	streak: number;

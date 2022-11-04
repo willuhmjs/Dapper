@@ -1,6 +1,6 @@
 // stats with a certain person, how many daps youve recieved or given
 import { SlashCommandBuilder, EmbedBuilder, GuildMember } from "discord.js";
-import { getStreaks } from "../dapgap";
+import { getStreaks } from "../lib/dapgap";
 import type { CommandLike } from "./command";
 
 export default <CommandLike>{
