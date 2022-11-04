@@ -75,5 +75,5 @@ export default async (user1: User | TestUser, user2: User | TestUser) => {
 			choice.pfpsize,
 			choice.pfpsize
 		)
-		.jpegAsync();
+		.jpegAsync(100);
 };
