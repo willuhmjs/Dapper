@@ -1,8 +1,10 @@
-name: Create and publish a Docker image
+---
+name: "Test, Build, and Release"
 
 on:
   push:
-    branches: ['master']
+    branches:
+      - "master"
 
 env:
   REGISTRY: ghcr.io
@@ -39,3 +41,14 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  release:
+    name: "Release to GitHub"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
