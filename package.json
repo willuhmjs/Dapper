@@ -1,5 +1,5 @@
 {
-	"name": "Dapper",
+	"name": "dapper",
 	"version": "1.0.0",
 	"description": "A Discord bot to allow members to give dap to other members in your Discord server and earn social points towards your server's dap leaderboard.",
 	"main": "dist/src/index.js",
