@@ -44,16 +44,13 @@ export default <CommandLike>{
 			member
 		);
 
-		let UserGuildData =
-			(await GuildDapSchema.findOne({
-				userId: member.id,
-				guildId: interaction.guild.id,
-			}));
+		let UserGuildData = await GuildDapSchema.findOne({
+			userId: member.id,
+			guildId: interaction.guild.id,
+		});
 
 		if (!UserGuildData) {
-			return embedError(
-				`${member.user.username} has not been dapped yet.`
-			);
+			return embedError(`${member.user.username} has not been dapped yet.`);
 		}
 
 		const replyEmbed = new EmbedBuilder()
