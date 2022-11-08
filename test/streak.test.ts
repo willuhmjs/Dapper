@@ -13,7 +13,7 @@ test("streak can count normally", () => {
 	expect(streak(numbers, 10)).toBe(3);
 });
 
-test("early ending streak returns 1", () => {
+test("early ending streak returns 0", () => {
 	const numbers = [50, 38, 37, 36, 25, 24, 16, 10];
 	expect(streak(numbers, 5)).toBe(0);
 });
