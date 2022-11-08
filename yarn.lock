@@ -1713,7 +1713,7 @@ caniuse-lite@^1.0.30001400:
 
 canvas-constructor@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.npmjs.org/canvas-constructor/-/canvas-constructor-7.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/canvas-constructor/-/canvas-constructor-7.0.0.tgz#8d89e3be65d2c0c90b1ad65adab055bd8306ce30"
   integrity sha512-q74a5JU/UxKaUXYYgF5rqulNZDvXOw5WmuTqc2ffxVILL0Zz6YBlJi7vlCPhrv1GiBHTdbrHdoMlQ7/VQ2Z8vg==
   dependencies:
     tslib "^2.4.0"
