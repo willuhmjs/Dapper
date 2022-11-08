@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, User } from "discord.js";
 import gendap from "../lib/gendap";
 import type { CommandLike } from "./command";
 import { getStreaks } from "../lib/dapgap";
+import { GuildDapSchema, DapChain } from "../models";
 
 export default <CommandLike>{
 	data: new SlashCommandBuilder()
@@ -61,7 +62,6 @@ export default <CommandLike>{
 
 		const { lastDapCooldown } = await getStreaks(giver, reciever);
 
-		const { GuildDapSchema, DapChain } = (client as any).Schema;
 		// push transaction to dapchain
 		const dap = new DapChain({
 			giverId: giver.id,

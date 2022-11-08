@@ -9,6 +9,8 @@ interface streakOutput {
 	lastDapCooldown: boolean;
 }
 
+const COOLDOWN_TIME = 1000 * 60 * 60 * 24;
+
 export const getStreaks = async (
 	user1: User | GuildMember,
 	user2: User | GuildMember
@@ -33,10 +35,10 @@ export const getStreaks = async (
 			Infinity) < cooldown && dapData[dapData.length - 1].gainedScore == true;
 
 	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)];
-	const index = streak(data, 1000 * 60 * 60 * 24);
+	const index = streak(data, COOLDOWN_TIME);
 	if (index === -1) return { streak: 0, lastDapCooldown };
 	return {
-		streak: Math.floor((Date.now() - data[index]) / (1000 * 60 * 60 * 24)) + 1,
+		streak: Math.floor((Date.now() - data[index]) / COOLDOWN_TIME) + 1,
 		lastDapCooldown,
 	};
 };

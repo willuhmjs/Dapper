@@ -10,7 +10,6 @@ import {
 import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
 import { clientId, token, mongo } from "./config";
-import { GuildDapSchema, DapChain } from "./models";
 import type {
 	CommandLike,
 	ChatInputCommandAssertedInteraction,
@@ -19,9 +18,8 @@ import type {
 if (!token) throw Error("No token!");
 if (!clientId) throw Error("No clientId!");
 
-const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-(client as any).Schema = { GuildDapSchema, DapChain };
 const commandList = new Collection<string, CommandLike>();
 
 const commandData: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
