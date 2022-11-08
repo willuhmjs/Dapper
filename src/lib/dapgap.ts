@@ -2,7 +2,7 @@ import { DapChain } from "../models";
 import type { GuildMember, User } from "discord.js";
 import type { Collection } from "mongoose";
 import { streak } from "./streak";
-import { cooldown } from "../config";
+import { cooldown, streakGap } from "../config";
 
 interface streakOutput {
 	streak: number;
@@ -26,17 +26,18 @@ export const getStreaks = async (
 			],
 		},
 		null,
-		{ sort: "-date" }
+		{ sort: "ascending" }
 	);
 	let lastDapCooldown: boolean =
 		(Date.now() - dapData[dapData.length - 1]?.createdAt.getTime() ||
 			Infinity) < cooldown && dapData[dapData.length - 1].gainedScore == true;
 
-	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)];
-	const index = streak(data, 1000 * 60 * 60 * 24);
+			// sort by descending
+	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)].sort((a, b) => b - a);
+	const index = streak(data, streakGap);
 	if (index === -1) return { streak: 0, lastDapCooldown };
 	return {
-		streak: Math.floor((Date.now() - data[index]) / (1000 * 60 * 60 * 24)) + 1,
+		streak: Math.floor((Date.now() - data[index]) / streakGap) + 1,
 		lastDapCooldown,
 	};
 };

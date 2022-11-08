@@ -41,7 +41,10 @@ const options: ImageChoice[] = [
 ];
 
 type TestUser = { displayAvatarURL: () => string };
-export default async (user1: User | TestUser, user2: User | TestUser): Promise<Buffer> => {
+export default async (
+	user1: User | TestUser,
+	user2: User | TestUser
+): Promise<Buffer> => {
 	const choice = options[Math.floor(Math.random() * options.length)];
 	const user1avatar = await loadImage(
 		user1.displayAvatarURL({ extension: "jpg" })
