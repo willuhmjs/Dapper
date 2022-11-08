@@ -14,17 +14,17 @@ export function streak(numbers: number[], maxGap: number): number {
 	if (numbers.length <= 1) return -1;
 
 	// The amount of numbers in a row
-	let streakAmount = 0;
+	let streakIndex = 0;
 
 	for (let i = 0; i < numbers.length; i++) {
-		// If the next number is within the max gap, increase the streak amount
+		// If the next number is within the max gap, increase the streak index
 		if (numbers[i] - numbers[i + 1] <= maxGap) {
-			streakAmount++;
+			streakIndex++;
 		} else {
 			// If the next number is not within the max gap, break the loop
 			break;
 		}
 	}
 
-	return streakAmount;
+	return streakIndex;
 }
