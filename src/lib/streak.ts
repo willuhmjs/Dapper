@@ -17,7 +17,8 @@ export function streak(numbers: number[], maxGap: number): number {
 	let streakIndex = 0;
 
 	for (let i = 0; i < numbers.length; i++) {
-		// If the next number is within the max gap, increase the streak index
+		// If the next number is within the max gap, increase the streak index.
+		// No index check is needed because any number - undefined = NaN, which causes all conditions to fail.
 		if (numbers[i] - numbers[i + 1] <= maxGap) {
 			streakIndex++;
 		} else {
