@@ -14,7 +14,8 @@
 		"pagination.djs": "^4.0.5"
 	},
 	"scripts": {
-		"start": "yarn build && node --enable-source-maps dist/src/index.js",
+		"dev": "yarn build && yarn start",
+		"start": "node --enable-source-maps dist/src/index.js",
 		"build": "yarn clean && tsc && yarn copy-files",
 		"clean": "rm -rf ./dist",
 		"copy-files": "cp -r ./src/images/ ./dist/src/",

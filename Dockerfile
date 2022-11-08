@@ -8,4 +8,4 @@ RUN yarn
 
 COPY . /usr/src/bot
 
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]
