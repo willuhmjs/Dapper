@@ -67,6 +67,7 @@ export default <CommandLike>{
 			giverId: giver.id,
 			recieverId: reciever.id,
 			guildId: interaction.guild.id,
+			gainedScore: !lastDapCooldown
 		});
 
 		await dap.save();
