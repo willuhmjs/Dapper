@@ -38,6 +38,12 @@ const options: ImageChoice[] = [
 		user2coords: { x: 1510, y: 50 },
 		fileNumber: 1,
 	}),
+	generateImage({
+		pfpsize: 116,
+		user1coords: { x: 149, y: 78 },
+		user2coords: { x: 430, y: 9 },
+		fileNumber: 2,
+	})
 ];
 
 type TestUser = { displayAvatarURL: () => string };
