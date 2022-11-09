@@ -33,9 +33,9 @@ const options: ImageChoice[] = [
 		fileNumber: 0,
 	}),
 	generateImage({
-		pfpsize: 500,
-		user1coords: { x: 260, y: 66 },
-		user2coords: { x: 1510, y: 50 },
+		pfpsize: 510,
+		user1coords: { x: 250, y: 56 },
+		user2coords: { x: 1500, y: 45 },
 		fileNumber: 1,
 	}),
 	generateImage({
