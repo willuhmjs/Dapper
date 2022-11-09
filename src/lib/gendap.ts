@@ -33,11 +33,23 @@ const options: ImageChoice[] = [
 		fileNumber: 0,
 	}),
 	generateImage({
-		pfpsize: 500,
-		user1coords: { x: 260, y: 66 },
-		user2coords: { x: 1510, y: 50 },
+		pfpsize: 510,
+		user1coords: { x: 250, y: 56 },
+		user2coords: { x: 1500, y: 45 },
 		fileNumber: 1,
 	}),
+	generateImage({
+		pfpsize: 116,
+		user1coords: { x: 149, y: 78 },
+		user2coords: { x: 430, y: 9 },
+		fileNumber: 2,
+	}),
+	generateImage({
+		pfpsize: 100,
+		user1coords: { x: 95, y: 153 },
+		user2coords: { x: 410, y: 115 },
+		fileNumber: 3,
+	})
 ];
 
 type TestUser = { displayAvatarURL: () => string };
