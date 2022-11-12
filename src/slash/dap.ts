@@ -24,6 +24,22 @@ export default <CommandLike>{
 			interaction.reply({ embeds: [replyEmbed], ephemeral: true });
 		}
 
+		function mileStone(
+			daps: number,
+			dapType: "given" | "recieved",
+			user: User,			
+		) {
+			const ending = dapType === "given" ? "daps" : "daps recieved";
+			const replyEmbed = new EmbedBuilder()
+				.setColor("Green")
+				.setDescription(
+					`🎉 <@${user.id}>, you have just reached ${daps} ${ending}!`
+				)
+				.setTimestamp();
+			
+			interaction.channel?.send({ embeds: [replyEmbed] });
+		}
+
 		function sendDap(
 			text: string,
 			attachment: Buffer,
@@ -113,16 +129,23 @@ export default <CommandLike>{
 		}
 
 		const dapImage = await gendap(giver, reciever);
-
+		
 		if (lastDapCooldown) {
 			dap.gainedScore = false;
-			return sendDap(`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage);
+			sendDap(`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage);
+		} else {
+			sendDap(
+				`<@${giver.id}> 🤝 <@${reciever.id}>`,
+				dapImage,
+				`+${addDap} DapScore`
+			);
 		}
-
-		return sendDap(
-			`<@${giver.id}> 🤝 <@${reciever.id}>`,
-			dapImage,
-			`+${addDap} DapScore`
-		);
+		if (!interaction.channel) return;
+		if (giverGuildDap.dapsGiven % 25 === 0 && giverGuildDap.dapsGiven !== 0 && giverGuildDap.dapsGiven >= 25) {
+			mileStone(giverGuildDap.dapsGiven, "given", giver);
+		}
+		if (recieverGuildDap.dapsRecieved % 25 === 0 && recieverGuildDap.dapsRecieved !== 0 && recieverGuildDap.dapsRecieved >= 25) {
+			mileStone(recieverGuildDap.dapsRecieved, "recieved", reciever);
+		}
 	},
 };
