@@ -32,8 +32,11 @@ export const getStreaks = async (
 		(Date.now() - dapData[dapData.length - 1]?.createdAt.getTime() ||
 			Infinity) < cooldown && dapData[dapData.length - 1].gainedScore == true;
 
-			// sort by descending
-	const data = [Date.now(), ...dapData.map((document) => +document.createdAt)].sort((a, b) => b - a);
+	// sort by descending
+	const data = [
+		Date.now(),
+		...dapData.map((document) => +document.createdAt),
+	].sort((a, b) => b - a);
 	const index = streak(data, streakGap);
 	if (index === -1) return { streak: 0, lastDapCooldown };
 	return {

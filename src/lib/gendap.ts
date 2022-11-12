@@ -49,7 +49,7 @@ const options: ImageChoice[] = [
 		user1coords: { x: 95, y: 153 },
 		user2coords: { x: 410, y: 115 },
 		fileNumber: 3,
-	})
+	}),
 ];
 
 type TestUser = { displayAvatarURL: () => string };
