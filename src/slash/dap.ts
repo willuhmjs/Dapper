@@ -27,7 +27,7 @@ export default <CommandLike>{
 		function mileStone(
 			daps: number,
 			dapType: "given" | "recieved",
-			user: User,			
+			user: User
 		) {
 			const ending = dapType === "given" ? "daps" : "daps recieved";
 			const replyEmbed = new EmbedBuilder()
@@ -36,7 +36,7 @@ export default <CommandLike>{
 					`🎉 <@${user.id}>, you have just reached ${daps} ${ending}!`
 				)
 				.setTimestamp();
-			
+
 			interaction.channel?.send({ embeds: [replyEmbed] });
 		}
 
@@ -89,7 +89,6 @@ export default <CommandLike>{
 		await dap.save();
 
 		// update GIVER
-
 		let giverGuildDap = await GuildDapSchema.findOne({
 			userId: giver.id,
 			guildId,
@@ -97,16 +96,14 @@ export default <CommandLike>{
 		if (!giverGuildDap) {
 			giverGuildDap = new GuildDapSchema({
 				userId: giver.id,
-				dapsGiven: 1,
 				guildId,
 			});
-			if (!lastDapCooldown)
-				giverGuildDap.userDap = addDap && (await giverGuildDap.save());
-		} else {
-			if (!lastDapCooldown) giverGuildDap.userDap += addDap;
-			giverGuildDap.dapsGiven++;
-			await giverGuildDap.save();
 		}
+		if (!lastDapCooldown) {
+			giverGuildDap.userDap += addDap;
+		}
+		giverGuildDap.dapsGiven++;
+		await giverGuildDap.save();
 
 		// update RECIEVER
 
@@ -117,19 +114,17 @@ export default <CommandLike>{
 		if (!recieverGuildDap) {
 			recieverGuildDap = new GuildDapSchema({
 				userId: reciever.id,
-				dapsRecieved: 1,
 				guildId,
 			});
-			if (!lastDapCooldown) recieverGuildDap.userDap = addDap;
-			await recieverGuildDap.save();
-		} else {
-			if (!lastDapCooldown) recieverGuildDap.userDap += addDap;
-			recieverGuildDap.dapsRecieved++;
-			await recieverGuildDap.save();
 		}
+		if (!lastDapCooldown) {
+			recieverGuildDap.userDap += addDap;
+		}
+		recieverGuildDap.dapsRecieved++;
+		await recieverGuildDap.save();
 
 		const dapImage = await gendap(giver, reciever);
-		
+
 		if (lastDapCooldown) {
 			dap.gainedScore = false;
 			sendDap(`<@${giver.id}> 🤝 <@${reciever.id}>`, dapImage);
@@ -141,10 +136,18 @@ export default <CommandLike>{
 			);
 		}
 		if (!interaction.channel) return;
-		if (giverGuildDap.dapsGiven % 25 === 0 && giverGuildDap.dapsGiven !== 0 && giverGuildDap.dapsGiven >= 25) {
+		if (
+			giverGuildDap.dapsGiven % 25 === 0 &&
+			giverGuildDap.dapsGiven !== 0 &&
+			giverGuildDap.dapsGiven >= 25
+		) {
 			mileStone(giverGuildDap.dapsGiven, "given", giver);
 		}
-		if (recieverGuildDap.dapsRecieved % 25 === 0 && recieverGuildDap.dapsRecieved !== 0 && recieverGuildDap.dapsRecieved >= 25) {
+		if (
+			recieverGuildDap.dapsRecieved % 25 === 0 &&
+			recieverGuildDap.dapsRecieved !== 0 &&
+			recieverGuildDap.dapsRecieved >= 25
+		) {
 			mileStone(recieverGuildDap.dapsRecieved, "recieved", reciever);
 		}
 	},
