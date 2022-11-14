@@ -2,6 +2,8 @@
 
 A Discord bot to allow members to give dap to other members in your Discord server and earn social points towards your server's dap leaderboard.
 
+![Example image](https://i.imgur.com/Rzby5Ne.png)
+
 ## Features
 
 Some of the features of Dapper include:
