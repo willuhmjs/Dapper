@@ -1,14 +1,12 @@
 import { subtle } from "crypto";
 import {
 	SlashCommandBuilder,
-	EmbedBuilder,
 	PermissionsBitField,
 	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle,
+	ActionRow,
 } from "discord.js";
 import { GuildDapSchema } from "../models";
 import type { CommandLike } from "./command";
@@ -53,42 +51,49 @@ export default <CommandLike>{
 			const modal = new ModalBuilder()
 				.setTitle(`Editing ${user.username}'s profile`)
 				.setCustomId("edit_profile_modal");
+
 			const DapScoreInput = new TextInputBuilder()
 				.setCustomId("dap_score_input")
 				.setPlaceholder("DapScore")
-				.setValue(""+UserGuildData.userDap || "0")
+				.setValue(`${UserGuildData.userDap}` || "0")
 				.setMinLength(1)
-				.setStyle(TextInputStyle.Short);
+				.setStyle(TextInputStyle.Short)
+				.setLabel("DapScore");
 
 			const DapsGivenInput = new TextInputBuilder()
 				.setCustomId("daps_given_input")
 				.setPlaceholder("Daps Given")
-				.setValue(""+UserGuildData.dapsGiven || "0")
+				.setValue(`${UserGuildData.dapsGiven}` || "0")
 				.setMinLength(1)
-				.setStyle(TextInputStyle.Short);
+				.setStyle(TextInputStyle.Short)
+				.setLabel("Daps Given");
 
 			const DapsRecievedInput = new TextInputBuilder()
 				.setCustomId("daps_recieved_input")
 				.setPlaceholder("Daps Recieved")
-				.setValue(""+UserGuildData.dapsRecieved || "0")
+				.setValue(`${UserGuildData.dapsRecieved}` || "0")
 				.setMinLength(1)
-				.setStyle(TextInputStyle.Short);
+				.setStyle(TextInputStyle.Short)
+				.setLabel("Daps Recieved");
 
-			const firstActionRow = new ActionRowBuilder().addComponents(
+			const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
 				DapScoreInput
 			);
 
-			const secondActionRow = new ActionRowBuilder().addComponents(
+			const secondActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
 				DapsGivenInput
 			);
 
-			const thirdActionRow = new ActionRowBuilder().addComponents(
+			const thirdActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
 				DapsRecievedInput
 			);
 
-			// @ts-ignore:code
 			modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 			await interaction.showModal(modal);
+
+			
+
+
 		} else if (interaction.options.getSubcommand() === "delete") {
 			/*await UserGuildData.deleteOne();
 			await interaction.reply({
