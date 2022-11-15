@@ -1,4 +1,3 @@
-import { subtle } from "crypto";
 import {
 	SlashCommandBuilder,
 	PermissionsBitField,
@@ -6,14 +5,15 @@ import {
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle,
-	ActionRow,
+	ModalSubmitInteraction,
+	EmbedBuilder
 } from "discord.js";
 import { GuildDapSchema } from "../models";
 import type { CommandLike } from "./command";
 
 export default <CommandLike>{
 	data: new SlashCommandBuilder()
-		.setName("edit")
+		.setName("profile")
 		.setDescription("An administrator command to edit the profile of a user.")
 		.addSubcommand((subcommand) =>
 			subcommand
@@ -55,6 +55,7 @@ export default <CommandLike>{
 				.setValue(`${UserGuildData.userDap}` || "0")
 				.setMinLength(1)
 				.setStyle(TextInputStyle.Short)
+				.setRequired(true)
 				.setLabel("DapScore");
 
 			const DapsGivenInput = new TextInputBuilder()
@@ -63,6 +64,7 @@ export default <CommandLike>{
 				.setValue(`${UserGuildData.dapsGiven}` || "0")
 				.setMinLength(1)
 				.setStyle(TextInputStyle.Short)
+				.setRequired(true)
 				.setLabel("Daps Given");
 
 			const DapsRecievedInput = new TextInputBuilder()
@@ -71,6 +73,7 @@ export default <CommandLike>{
 				.setValue(`${UserGuildData.dapsRecieved}` || "0")
 				.setMinLength(1)
 				.setStyle(TextInputStyle.Short)
+				.setRequired(true)
 				.setLabel("Daps Recieved");
 
 			const firstActionRow =
@@ -86,6 +89,36 @@ export default <CommandLike>{
 
 			modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 			await interaction.showModal(modal);
+
+			const modalInteraction: ModalSubmitInteraction = await interaction.awaitModalSubmit({ time: 60000 });
+			if (!modalInteraction || !modalInteraction.isModalSubmit() || modalInteraction.customId !== "edit_profile_modal") return;
+			function error(text: string) {
+				const replyEmbed = new EmbedBuilder()
+					.setColor("Red")
+					.setDescription(text)
+					.setTimestamp();
+	
+				modalInteraction.editReply({ embeds: [replyEmbed] });
+			}
+
+			const DapScoreInputRes = parseInt(modalInteraction.fields.getTextInputValue("dap_score_input"));
+			const DapsGivenInputRes = parseInt(modalInteraction.fields.getTextInputValue("daps_given_input"));
+			const DapsRecievedInputRes = parseInt(modalInteraction.fields.getTextInputValue("daps_recieved_input"));
+			if (isNaN(DapScoreInputRes)) return error("DapScore must be a number.");
+			if (isNaN(DapsGivenInputRes)) return error("Daps Given must be a number.");
+			if (isNaN(DapsRecievedInputRes)) return error("Daps Recieved must be a number.");
+
+			UserGuildData.userDap = DapScoreInputRes;
+			UserGuildData.dapsGiven = DapsGivenInputRes;
+			UserGuildData.dapsRecieved = DapsRecievedInputRes;
+			await UserGuildData.save();
+
+			const replyEmbed = new EmbedBuilder()
+				.setColor("Green")
+				.setDescription(`Successfully edited ${user.username}'s profile.`)
+				.setTimestamp();
+			modalInteraction.reply({ embeds: [replyEmbed] });
+
 		} else if (interaction.options.getSubcommand() === "delete") {
 			/*await UserGuildData.deleteOne();
 			await interaction.reply({
