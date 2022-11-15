@@ -15,22 +15,21 @@ export default <CommandLike>{
 	data: new SlashCommandBuilder()
 		.setName("edit")
 		.setDescription("An administrator command to edit the profile of a user.")
-		.addSubcommand(subcommand => 
+		.addSubcommand((subcommand) =>
 			subcommand
-			.setName("edit")
-			.setDescription("Edit a user's profile.")
-			.addUserOption(option =>
-				option.setName("user").setDescription("The user to edit.")
-			)
-			
+				.setName("edit")
+				.setDescription("Edit a user's profile.")
+				.addUserOption((option) =>
+					option.setName("user").setDescription("The user to edit.")
+				)
 		)
-		.addSubcommand(subcommand =>
+		.addSubcommand((subcommand) =>
 			subcommand
-			.setName("delete")
-			.setDescription("Delete a user's profile.")
-			.addUserOption(option =>
-				option.setName("user").setDescription("The user to delete.")
-			)
+				.setName("delete")
+				.setDescription("Delete a user's profile.")
+				.addUserOption((option) =>
+					option.setName("user").setDescription("The user to delete.")
+				)
 		)
 		.setDefaultMemberPermissions(PermissionsBitField.Flags.ManageGuild),
 	async execute(client, interaction) {
@@ -44,8 +43,6 @@ export default <CommandLike>{
 				userId: user.id,
 				guildId: interaction.guild.id,
 			}).save());
-
-
 
 		if (interaction.options.getSubcommand() === "edit") {
 			const modal = new ModalBuilder()
@@ -76,24 +73,19 @@ export default <CommandLike>{
 				.setStyle(TextInputStyle.Short)
 				.setLabel("Daps Recieved");
 
-			const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-				DapScoreInput
-			);
+			const firstActionRow =
+				new ActionRowBuilder<TextInputBuilder>().addComponents(DapScoreInput);
 
-			const secondActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-				DapsGivenInput
-			);
+			const secondActionRow =
+				new ActionRowBuilder<TextInputBuilder>().addComponents(DapsGivenInput);
 
-			const thirdActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-				DapsRecievedInput
-			);
+			const thirdActionRow =
+				new ActionRowBuilder<TextInputBuilder>().addComponents(
+					DapsRecievedInput
+				);
 
 			modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 			await interaction.showModal(modal);
-
-			
-
-
 		} else if (interaction.options.getSubcommand() === "delete") {
 			/*await UserGuildData.deleteOne();
 			await interaction.reply({
