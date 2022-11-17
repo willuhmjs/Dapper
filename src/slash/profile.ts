@@ -6,7 +6,9 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 	ModalSubmitInteraction,
-	EmbedBuilder
+	EmbedBuilder,
+	ButtonBuilder,
+	ButtonStyle
 } from "discord.js";
 import { GuildDapSchema } from "../models";
 import type { CommandLike } from "./command";
@@ -120,11 +122,33 @@ export default <CommandLike>{
 			modalInteraction.reply({ embeds: [replyEmbed] });
 
 		} else if (interaction.options.getSubcommand() === "delete") {
-			/*await UserGuildData.deleteOne();
-			await interaction.reply({
-				content: `Deleted ${user.username}'s profile.`,
-				ephemeral: true,
-			});*/
+			await UserGuildData.delete();
+
+			const buttonRow = new ActionRowBuilder<ButtonBuilder>()
+				.addComponents(
+					new ButtonBuilder()
+						.setCustomId("confirm_delete")
+						.setLabel("Delete Profile")
+						.setStyle(ButtonStyle.Danger)
+				)
+
+			const deleteEmbed = new EmbedBuilder()
+				.setColor("Red")
+				.setDescription(`Are you sure you want to delete ${user.username}'s profile?`)
+
+			await interaction.reply({ embeds: [deleteEmbed], components: [buttonRow] });
+			const i2 = await interaction.channel?.awaitMessageComponent({
+				time: 120000,
+				filter: (i) => i.user.id === interaction.user.id
+			});
+			if (!i2 || !i2.isButton()) return;
+			if (i2.customId == "confirm_delete") {
+				await UserGuildData.delete();
+				deleteEmbed.setDescription(`Successfully deleted ${user.username}'s profile.`)
+				deleteEmbed.setColor("Green")
+				await interaction.editReply({ embeds: [deleteEmbed], components: [] });
+			}
+
 		}
 	},
 };
