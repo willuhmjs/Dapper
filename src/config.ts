@@ -15,4 +15,5 @@ export const mongo = process.env.MONGO;
 // default is 1 minute
 export const cooldown = +(process.env.COOLDOWN || 60 * 1000);
 
+// the cooldown between daps before dapscore is awarded again, in milliseconds
 export const streakGap = +(process.env.STREAK_GAP || 24 * 60 * 60 * 1000);
