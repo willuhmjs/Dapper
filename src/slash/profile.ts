@@ -135,19 +135,25 @@ export default <CommandLike>{
 			const deleteEmbed = new EmbedBuilder()
 				.setColor("Red")
 				.setDescription(`Are you sure you want to delete ${user.username}'s profile?`)
+				.setFooter({ text: "This action cannot be undone." })
 
 			await interaction.reply({ embeds: [deleteEmbed], components: [buttonRow] });
-			const i2 = await interaction.channel?.awaitMessageComponent({
-				time: 120000,
-				filter: (i) => i.user.id === interaction.user.id
-			});
-			if (!i2 || !i2.isButton()) return;
-			if (i2.customId == "confirm_delete") {
+			try {
+				const i2 = await interaction.channel?.awaitMessageComponent({
+					time: 120000,
+					filter: (i) => i.user.id === interaction.user.id
+				});	
+				if (!i2 || !i2.isButton() || i2.customId !== "confirm_delete") return;
 				await UserGuildData.delete();
 				deleteEmbed.setDescription(`Successfully deleted ${user.username}'s profile.`)
 				deleteEmbed.setColor("Green")
 				await interaction.editReply({ embeds: [deleteEmbed], components: [] });
-			}
+		} catch {
+			deleteEmbed.setDescription(`Interaction timed out after 2 minutes. Please try again.`)
+			deleteEmbed.setFooter(null);
+			deleteEmbed.setColor("Red")
+			await interaction.editReply({ embeds: [deleteEmbed], components: [] });
+		}
 
 		}
 	},
