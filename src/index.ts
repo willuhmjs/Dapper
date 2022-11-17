@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import { REST } from "@discordjs/rest";
 import mongoose from "mongoose";
-import { clientId, token, mongo } from "./config";
+import { clientId, token, mongo, production, devGuild } from "./config";
 import type {
 	CommandLike,
 	ChatInputCommandAssertedInteraction,
@@ -30,11 +30,18 @@ for (const command of commands) {
 }
 
 const rest = new REST({ version: "10" }).setToken(token);
+if (production) {
+	rest
+		.put(Routes.applicationCommands(clientId), { body: commandData })
+		.then(() => console.log("Successfully registered application commands."))
+		.catch(console.error);
+} else if (!production && devGuild) {
+	rest
+		.put(Routes.applicationGuildCommands(clientId, devGuild), { body: commandData })
+		.then(() => console.log("Successfully registered application guild commands!"))
+		.catch(console.error);
 
-rest
-	.put(Routes.applicationCommands(clientId), { body: commandData })
-	.then(() => console.log("Successfully registered application commands."))
-	.catch(console.error);
+}
 
 client.once("ready", async () => {
 	if (!mongo) throw Error("No mongo!");
