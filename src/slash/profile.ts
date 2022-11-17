@@ -91,8 +91,8 @@ export default <CommandLike>{
 
 			modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 			await interaction.showModal(modal);
-
-			const modalInteraction: ModalSubmitInteraction = await interaction.awaitModalSubmit({ time: 60000 });
+		    try {
+			const modalInteraction: ModalSubmitInteraction = await interaction.awaitModalSubmit({ time: 120000 });
 			if (!modalInteraction || !modalInteraction.isModalSubmit() || modalInteraction.customId !== "edit_profile_modal") return;
 			function error(text: string) {
 				const replyEmbed = new EmbedBuilder()
@@ -120,7 +120,7 @@ export default <CommandLike>{
 				.setDescription(`Successfully edited ${user.username}'s profile.`)
 				.setTimestamp();
 			modalInteraction.reply({ embeds: [replyEmbed] });
-
+			} catch {}
 		} else if (interaction.options.getSubcommand() === "delete") {
 			await UserGuildData.delete();
 
