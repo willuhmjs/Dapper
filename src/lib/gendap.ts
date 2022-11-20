@@ -5,7 +5,7 @@ import sizeOf from "image-size";
 import { User } from "discord.js";
 
 interface ImageChoice {
-	pfpsize: number;
+	pfpradius: number;
 	user1coords: { x: number; y: number };
 	user2coords: { x: number; y: number };
 	fileNumber: number;
@@ -27,25 +27,25 @@ function generateImage(
 
 const options: ImageChoice[] = [
 	generateImage({
-		pfpsize: 400,
+		pfpradius: 200,
 		user1coords: { x: 532, y: 1240 },
 		user2coords: { x: 1740, y: 1064 },
 		fileNumber: 0,
 	}),
 	generateImage({
-		pfpsize: 510,
+		pfpradius: 255,
 		user1coords: { x: 250, y: 56 },
 		user2coords: { x: 1500, y: 45 },
 		fileNumber: 1,
 	}),
 	generateImage({
-		pfpsize: 116,
+		pfpradius: 58,
 		user1coords: { x: 149, y: 78 },
 		user2coords: { x: 430, y: 9 },
 		fileNumber: 2,
 	}),
 	generateImage({
-		pfpsize: 100,
+		pfpradius: 50,
 		user1coords: { x: 95, y: 153 },
 		user2coords: { x: 410, y: 115 },
 		fileNumber: 3,
@@ -76,19 +76,17 @@ export default async (
 			dimensions.width,
 			dimensions.height
 		)
-		.printImage(
+		.printCircularImage(
 			user1avatar,
-			choice.user1coords.x,
-			choice.user1coords.y,
-			choice.pfpsize,
-			choice.pfpsize
+			choice.user1coords.x+choice.pfpradius,
+			choice.user1coords.y+choice.pfpradius,
+			choice.pfpradius
 		)
-		.printImage(
+		.printCircularImage(
 			user2avatar,
-			choice.user2coords.x,
-			choice.user2coords.y,
-			choice.pfpsize,
-			choice.pfpsize
+			choice.user2coords.x+choice.pfpradius,
+			choice.user2coords.y+choice.pfpradius,
+			choice.pfpradius,
 		)
 		.jpegAsync(100);
 };
