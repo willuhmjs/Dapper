@@ -1318,7 +1318,7 @@
 
 "@napi-rs/canvas@^0.1.30":
   version "0.1.30"
-  resolved "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.30.tgz"
+  resolved "https://registry.yarnpkg.com/@napi-rs/canvas/-/canvas-0.1.30.tgz#d18e0780f2bd59c7a859aa539a376a1bf638e065"
   integrity sha512-XRR6PumJW9GdODD+HFW7ZKmpq7FE6PIKWn7QTcsJUdGNb54fTS1Z47oPFZ3pbvs07Xs8ZnkR03Q/9T3LfkGRgg==
   optionalDependencies:
     "@napi-rs/canvas-android-arm64" "0.1.30"
